@@ -111,6 +111,7 @@ export function AccountBox(props) {
     }, 400);
   };
 
+  
   const switchToSignin = () => {
     playExpandingAnimation();
     setTimeout(() => {
