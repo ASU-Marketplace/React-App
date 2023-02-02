@@ -3,7 +3,6 @@ import { faPerson } from '@fortawesome/free-solid-svg-icons'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { Link, useMatch, useResolvedPath} from "react-router-dom"
 import logo from '../../images/asu.png'
-import styled from "styled-components"
 
 export default function NavBar(){
     const path = window.location.pathname
