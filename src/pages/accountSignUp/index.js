@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { LoginForm } from "./loginForm";
+import { LoginForm } from "../../components/accountBox/loginForm";
 import { motion } from "framer-motion";
-import { AccountContext } from "./accountContext";
-import { SignupForm } from "./signupForm";
+import { AccountContext } from "../../components/accountBox/accountContext";
+import { SignupForm } from "../../components/accountBox/signupForm";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const BoxContainer = styled.div`
   width: 280px;
