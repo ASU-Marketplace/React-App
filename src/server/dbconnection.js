@@ -1,19 +1,22 @@
-const mysql = require('promise-mysql');
+const mysql = require('mysql');
 
-// createUnixSocketPool initializes a Unix socket connection pool for
-// a Cloud SQL instance of MySQL.
-const createUnixSocketPool = async config => {
-  // Note: Saving credentials in environment variables is convenient, but not
-  // secure - consider a more secure solution such as
-  // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe.
-  return mysql.createPool({
-    user: process.env.DB_USER, // e.g. 'my-db-user'
-    password: process.env.DB_PASS, // e.g. 'my-db-password'
-    database: process.env.DB_NAME, // e.g. 'my-database'
-    socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    // Specify additional properties here.
-    ...config,
-  });
-};
-module.exports = createUnixSocketPool;
+const DB_USER = process.env.DB_USER;
+const DB_PASS = process.env.DB_PASS;
+const DB_NAME_USERS = process.env.DB_NAME_USERS;
+const DB_NAME_PRODUCTS = process.env.DB_NAME_PRODUCTS;
+
+const usersConnection = mysql.createConnection({
+  host: `/cloudsql/${process.env.DB_INSTANCE_USERS}`,
+  user: DB_USER,
+  password: DB_PASS,
+  database: DB_NAME_USERS,
+  socketPath: `/cloudsql/${process.env.DB_INSTANCE_USERS}`,
+});
+
+const productsConnection = mysql.createConnection({
+  host: `/cloudsql/${process.env.DB_INSTANCE_PRODUCTS}`,
+  user: DB_USER,
+  password: DB_PASS,
+  database: DB_NAME_PRODUCTS,
+  socketPath: `/cloudsql/${process.env.DB_INSTANCE_PRODUCTS}`,
+});
