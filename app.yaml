@@ -1,12 +1,4 @@
 runtime: nodejs12
-env_variables:
-  INSTANCE_UNIX_SOCKET: "/cloudsql/asu-marketplace-app:us-west2:product-listings-instance"
-  DB_USER: "root"
-  DB_PASS: 
-  DB_NAME_PRODUCTS: "asu-marketplace-app:us-west2:product-listings-instance"
-  DB_NAME_USERS: "asu-marketplace-app:us-west2:user-account-instance"
-  DB_INSTANCE_PRODUCTS: "product-listings-instance"
-  DB_INSTANCE_USERS: "user-account-instance"
 handlers:
   # Serve all static files with url ending with a file extension
   - url: /(.*\..+)$

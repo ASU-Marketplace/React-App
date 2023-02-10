@@ -2,6 +2,16 @@ steps:
   - name: "gcr.io/cloud-builders/npm"
     args: ["install"]
   - name: "gcr.io/cloud-builders/npm"
+    args: ["run", "create-env"]
+    env:
+      - 'DB_USER=${_DB_USER}'
+      - 'DB_PASS_PRODUCTS=${_DB_PASS_PRODUCTS}'
+      - 'DB_PASS_USERS=${_DB_PASS_USERS}'
+      - 'DB_NAME_USERS=${_DB_NAME_USERS}'
+      - 'DB_NAME_PRODUCTS=${_DB_NAME_PRODUCTS}'
+      - 'DB_INSTANCE_USERS=${_DB_INSTANCE_USERS}'
+      - 'DB_INSTANCE_PRODUCTS=${_DB_INSTANCE_PRODUCTS}'
+  - name: "gcr.io/cloud-builders/npm"
     args: ["run", "build"]
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "app.yaml"]
