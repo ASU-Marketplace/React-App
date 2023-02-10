@@ -9,10 +9,16 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-
+import { Link, useMatch, useResolvedPath, useNavigate} from "react-router-dom"
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
+
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/`; 
+    navigate(path);
+  }
 
   return (
     <BoxContainer>
@@ -23,7 +29,9 @@ export function SignupForm(props) {
         <Input type="password" placeholder="Confirm Password" />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
-      <SubmitButton type="submit">Sign Up</SubmitButton>
+
+      <SubmitButton type="submit" onClick={routeChange}>Sign Up</SubmitButton>
+
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
         Already have an account?
