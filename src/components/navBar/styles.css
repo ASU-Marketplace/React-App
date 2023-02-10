@@ -1,0 +1,77 @@
+.dropdown-menu {
+        position: absolute;
+        z-index: 1;
+        background-color: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 10px;
+    }
+    
+    .dropdown-menu.is-visible {
+        display: block;
+        opacity: 1;
+        padding: 1.5em;
+    }
+        
+    .nav:hover .dropdown-menu {
+        margin-top: 3em;
+        display: block;
+    }
+
+    .dropdown-item {
+        color:black;
+    }
+
+    .dropdown-item-logout {
+        color:red;
+    }
+
+    .dropdown-item-logout:hover {
+        background-color: rgba(119, 119, 119, .4);
+        border-radius: 10px 10px 10px 10px;
+        padding: 2px 2px;
+        transition: .4s;
+        border-radius: 5px;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(119, 119, 119, .4);
+        border-radius: 10px 10px 10px 10px;
+        padding: 2px 2px;
+        transition: .4s;
+        border-radius: 5px;
+    }
+
+    .account-items{
+        display: flex;
+    }
+
+    li.account-items:hover {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .search-form {
+        display: flex;
+        padding: 15px;
+    }
+    
+    .search-input {
+        border: none;
+        outline: none;
+        margin-right: 10px;
+        flex-grow: 1;
+        border-radius: 25px;
+    }
+    
+    .search-button {
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        border-radius: 25px;
+    }
+    
+    
