@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {ChatEngine, getOrCreateChat} from 'react-chat-engine'
 
-const DirectMessaging = () => {
+export const DirectMessaging = () => {
     // The useState hook initially sets the username to an empty string
     const[username, setUsername] = useState('')
     //Custom function that will implement the getOrCreateChat function that to select username to chat with
@@ -39,7 +39,7 @@ const DirectMessaging = () => {
     return(
         <ChatEngine
             height='100vh'
-            userName={process.env.CHAT_APP_USERNAME}
+            userName='admin'
             // Accessing the stored environment variables in .env file
             userSecret={process.env.CHAT_APP_USER_SECRET}
             projectID={process.env.CHAT_APP_PROJECT_ID}
@@ -48,4 +48,4 @@ const DirectMessaging = () => {
     )
 }
 
-export default DirectMessaging
+//export default DirectMessaging;
