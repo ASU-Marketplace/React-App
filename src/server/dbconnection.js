@@ -1,19 +1,31 @@
-const mysql = require('promise-mysql');
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import useStyles from "../components/products/styles";
+import React from "react";
 
-// createUnixSocketPool initializes a Unix socket connection pool for
-// a Cloud SQL instance of MySQL.
-const createUnixSocketPool = async config => {
-  // Note: Saving credentials in environment variables is convenient, but not
-  // secure - consider a more secure solution such as
-  // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe.
-  return mysql.createPool({
-    user: process.env.DB_USER, // e.g. 'my-db-user'
-    password: process.env.DB_PASS, // e.g. 'my-db-password'
-    database: process.env.DB_NAME, // e.g. 'my-database'
-    socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    // Specify additional properties here.
-    ...config,
-  });
+
+
+// Use this to initialize the firebase App
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+// Use these for db & auth
+const db = firebaseApp.firestore();
+const auth = firebase.auth();
+
+export { auth, db };
+
+export const addValue = () => {
+  //alert("GETTING HERE");
+  db.collection("values")
+      .doc("value")
+      .set({
+        value: "testing",
+      })
+      .then(function () {
+        alert("Value successfully written!");
+      })
+      .catch(function (error) {
+        alert("Error writing Value: " + error);
+      });
 };
-module.exports = createUnixSocketPool;
