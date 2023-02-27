@@ -9,6 +9,7 @@ import { ProductListing } from "./pages/createListing"
 import { ChatHome } from './pages/chatPage/Screens/ChatHome'
 import { SignIn } from './pages/chatPage/Screens/Signin'
 import { SignUp } from './pages/chatPage/Screens/Signup'
+import { UserListing } from './pages/userListings'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
     <Route path="/accountDetails" element={<AccountDetails/>}/>
     <Route path="/createListing" element={<ProductListing/>}/>
     <Route path="/chat" element={<ChatHome/>}/>      
+    <Route path="listings" element={<UserListing/>}/>
   </Routes>
 
 </div>
