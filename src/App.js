@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom"
 import { AccountDetails } from "./pages/accountDetails"
 import { ProductListing } from "./pages/createListing"
 import { DirectMessaging } from './pages/chatPage/DirectMessaging'
+//import { ChatPage } from './pages/chatPage'
+import { UserListing } from './pages/userListings'
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
     <Route path="/accountDetails" element={<AccountDetails/>}/>
     <Route path="/createListing" element={<ProductListing/>}/>
     <Route path="/chat" element={<DirectMessaging/>}/>
+    {/* <Route path="/chat" element={<ChatPage/>}/> */}
+    <Route path="listings" element={<UserListing/>}/>
   </Routes>
 </div>
 </>
