@@ -153,7 +153,7 @@ const sendMessage = async () => {
 
 return (
 	<div style={root}>
-	<Paper style={left}>
+	<Paper varaint="outlined" style={left}>
 		<div
 		style={{
 			display: "flex",
@@ -162,15 +162,6 @@ return (
 		}}
 		>
 		<h4 style={{ margin: 0 }}>{user?.displayName} </h4>
-		<Button
-			color="secondary"
-			onClick={() => {
-			auth.signOut();
-			navigate("/");
-			}}
-		>
-			Logout
-		</Button>
 		</div>
 		<Divider />
 		All users
@@ -252,37 +243,43 @@ display: "flex",
 flexDirection: "row",
 flex: 1,
 width: "100%",
+elevation: "10"
 };
 
 const left = {
 display: "flex",
 flex: 0.2,
-height: "95vh",
+height: "80vh",
 margin: 10,
 flexDirection: "column",
+backgroundColor: "white",
+elevation: "10"
 };
 
 const right = {
 display: "flex",
 flex: 0.8,
-height: "95vh",
+height: "80vh",
 margin: 10,
 flexDirection: "column",
+elevation: "10"
 };
 
 const input = {
 flex: 1,
 outline: "none",
-borderRadius: 5,
+borderRadius: 10,
 border: "none",
+elevation: "10"
 };
 
 const messagesDiv = {
-backgroundColor: "#FBEEE6",
+backgroundColor: "#EAEAEA",
 padding: 5,
 display: "flex",
 flexDirection: "column",
 flex: 1,
-maxHeight: 460,
+maxHeight: 400,
 overflowY: "scroll",
+elevation: "10"
 };
