@@ -6,7 +6,9 @@ import { Home } from "../src/pages/index"
 import { Route, Routes } from "react-router-dom"
 import { AccountDetails } from "./pages/accountDetails"
 import { ProductListing } from "./pages/createListing"
-import { DirectMessaging } from './pages/chatPage/DirectMessaging'
+import { ChatHome } from './pages/chatPage/Screens/ChatHome'
+import { SignIn } from './pages/chatPage/Screens/Signin'
+import { SignUp } from './pages/chatPage/Screens/Signup'
 
 function App() {
   return (
@@ -20,11 +22,12 @@ function App() {
     <Route path="/accountSignUp" element={<AccountBox/>}/>
     <Route path="/accountDetails" element={<AccountDetails/>}/>
     <Route path="/createListing" element={<ProductListing/>}/>
-    <Route path="/chat" element={<DirectMessaging/>}/>
+    <Route path="/chat" element={<ChatHome/>}/>      
   </Routes>
+
 </div>
 </>
-  );
+);
 }
 
 export default App;
