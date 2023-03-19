@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -9,7 +9,13 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { Link, useMatch, useResolvedPath, useNavigate} from "react-router-dom"
+import { useNavigate} from "react-router-dom";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+import { auth } from "../../firebase";
 
 export function LoginForm(props) {
   const { switchToSignup } = useContext(AccountContext);
@@ -21,17 +27,51 @@ export function LoginForm(props) {
     navigate(path);
   }
 
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const logout = async () => {
+    await signOut(auth);
+  };
+
   return (
     <BoxContainer>
       <FormContainer>
-        <Input type="email" placeholder="ASU-Email" />
-        <Input type="password" placeholder="Password" />
+        <Input type="email" placeholder="Your ASU E-mail"
+          onChange={(event) => {
+            setLoginEmail(event.target.value);
+          }} />
+        <Input type="password" placeholder="Password"  
+          onChange={(event) => {
+            setLoginPassword(event.target.value);
+          }} />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#">Forget your password?</MutedLink>
       <Marginer direction="vertical" margin="1.6em" />
 
-      <SubmitButton type="submit" onClick={routeChange}>Sign In</SubmitButton>
+      <SubmitButton type="submit" onClick={login}>Sign In</SubmitButton>
+      
       
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
@@ -40,6 +80,9 @@ export function LoginForm(props) {
           Sign up Here!
         </BoldLink>
       </MutedLink>
+      
+      
     </BoxContainer>
+    
   );
 }

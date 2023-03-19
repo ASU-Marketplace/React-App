@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  }
+  
+  .container > div {
+    margin-bottom: 20px;
+    flex-basis: calc(50% - 10px);
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .container > div {
+      flex-basis: 100%;
+    }
+  }
+
+  .locationSelect {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .textInput {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .btn-edit {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 5px;
+    width: 20%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-save {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 5px;
+    width: 20%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3e8e41;
+  }
+  
