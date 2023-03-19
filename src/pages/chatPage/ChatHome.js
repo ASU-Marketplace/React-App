@@ -10,7 +10,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router";
 
-import { db, auth } from "./Firebase";
+import { db, auth } from "../../firebase";
 import {
 	addDoc,
 	collection,
@@ -20,14 +20,17 @@ import {
 } from "firebase/firestore";
 
 function UsersComponent(props) {
-const handleToggle = (username, userId) => {
-	props.setReceiverData({
-	username: username,
-	userId: userId,
-	});
+	const user = auth.currentUser;
+	const username = auth.currentUser.displayName;
 
-	props.navigate(`/chat-home/${userId}`);
-};
+// const handleToggle = (username, userId) => {
+// 	props.setReceiverData({
+// 	username: username,
+// 	userId: userId,
+// 	});
+
+// 	props.navigate(`/chat/${userId}`);
+// };
 
 return (
 	<List
@@ -43,7 +46,7 @@ return (
 			<ListItem key={value.userId} disablePadding>
 			<ListItemButton
 				onClick={() => {
-				handleToggle(value.username, value.userId);
+				//handleToggle(value.username, value.userId);
 				}}
 			>
 				<ListItemAvatar>
