@@ -21,7 +21,7 @@ import {
 
 function UsersComponent(props) {
 	const user = auth.currentUser;
-	const username = auth.currentUser.displayName;
+	//const username = auth.currentUser.displayName;
 
 // const handleToggle = (username, userId) => {
 // 	props.setReceiverData({
