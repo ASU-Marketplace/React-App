@@ -101,8 +101,10 @@ function NavBar(){
                 <div className="dropdown-item">Report an Account</div>
             </Link>
 
-            <Link to="" className="--">
-                <div className="dropdown-item-logout">Log Out</div>
+            <Link to="accountSignUp" className="--">
+                <div className="dropdown-item-logout">
+                    Log out
+                </div>
             </Link>
             </div>
         )}
