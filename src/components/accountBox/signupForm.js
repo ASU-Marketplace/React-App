@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -9,13 +9,7 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { useNavigate} from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
-import { auth } from "../../firebase";
+import { Link, useMatch, useResolvedPath, useNavigate} from "react-router-dom"
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -25,52 +19,18 @@ export function SignupForm(props) {
     let path = `/`; 
     navigate(path);
   }
- 
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [registerName, setRegisterName] = useState("");
-
-  const [user, setUser] = useState({});
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      ).then((user) => {
-        user.updateProfile({
-          displayName: registerName,
-        })
-      });
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   return (
     <BoxContainer>
       <FormContainer>
-        <Input type="text" placeholder="Full Name" onChange={(event) => {
-          setRegisterName(event.target.value);
-        }}/>          
-        <Input type="email" placeholder="Your ASU E-mail" onChange={(event) => {
-          setRegisterEmail(event.target.value);
-        }} />
-        <Input type="password" placeholder="Password" 
-          onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}/>
-        {/* <Input type="password" placeholder="Confirm Password" /> */}
+        <Input type="text" placeholder="Full Name" />
+        <Input type="email" placeholder="ASU-Email" />
+        <Input type="password" placeholder="Password" />
+        <Input type="password" placeholder="Confirm Password" />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
 
-      <SubmitButton type="submit" onClick={register}>Sign Up</SubmitButton>
+      <SubmitButton type="submit" onClick={routeChange}>Sign Up</SubmitButton>
 
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">

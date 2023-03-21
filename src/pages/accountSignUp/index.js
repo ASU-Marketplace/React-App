@@ -4,7 +4,7 @@ import { LoginForm } from "../../components/accountBox/loginForm";
 import { motion } from "framer-motion";
 import { AccountContext } from "../../components/accountBox/accountContext";
 import { SignupForm } from "../../components/accountBox/signupForm";
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const BoxContainer = styled.div`
   width: 280px;

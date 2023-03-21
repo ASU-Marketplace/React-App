@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons';
-import { Link, useMatch, useResolvedPath} from "react-router-dom";
-import logo from '../../images/asu.png';
-import './styles.css';
-import Modal from "../accountReport";
-import { auth } from "../../firebase";
-import {signOut,} from "firebase/auth";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons'
+import { Link, useMatch, useResolvedPath} from "react-router-dom"
+import logo from '../../images/asu.png'
+import './styles.css'
+import Modal from "../accountReport"
 
 function NavBar(){
     const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -18,13 +16,6 @@ function NavBar(){
         // Perform search using the value in searchTerm
     };
 
-    const logout = async () => {
-        await signOut(auth);
-      };
-
-    
-    const user = auth.currentUser;
- 
     //Report an Account Modal
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -97,9 +88,6 @@ function NavBar(){
 
         {isDropdownVisible && isLoggedIn && (
             <div className={`dropdown-menu ${isDropdownVisible ? "is-visible" : ""}`}>
-             <Link to="/profile" className="--">
-                <div className="dropdown-item">My Profile</div>
-            </Link>   
             <Link to="/listings" className="--">
                 <div className="dropdown-item">My Listings</div>
             </Link>
@@ -113,8 +101,10 @@ function NavBar(){
                 <div className="dropdown-item">Report an Account</div>
             </Link>
 
-            <Link to="/accountSignUp" onClick={logout}>
-                <div className="dropdown-item-logout">Log Out </div>
+            <Link to="accountSignUp" className="--">
+                <div className="dropdown-item-logout">
+                    Log out
+                </div>
             </Link>
             </div>
         )}
