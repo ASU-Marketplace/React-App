@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import useStyles from './styles';
+import { addToCartDB, addValue, getValue } from '../../server/dbconnection';
+import { auth } from '../../firebase';
 
 const Product = ({ product }) => {
     const classes = useStyles();
@@ -31,7 +33,7 @@ const Product = ({ product }) => {
       <CardActions disableSpacing className={classes.cardActions}>
         <IconButton
           aria-label="Add to Cart"
-          onClick={() => addToCart(product)}
+          onClick={()=> {addToCartDB(auth.currentUser.email, product)}}
         >
           <AddShoppingCart />
         </IconButton>
