@@ -17,6 +17,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../../firebase";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -31,7 +34,10 @@ export function SignupForm(props) {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerName, setRegisterName] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [error, setError] = useState("");
+
+  const [isErrorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   const [user, setUser] = useState({});
 
@@ -53,16 +59,42 @@ export function SignupForm(props) {
         console.log(user);     
       } catch (error) {
         console.log(error.message);
-        setError(error);
+        setErrorVisible(true);
+        setOpen(true);
+        setErrorMessage(error.message);
       }
     } else {
-      console.log("Passwords do not match!");
-      const err = "Passwords don't match!";
-      setError(err);
+      setOpen(true);
+      setErrorVisible(true);
+      setErrorMessage("Passwords do not match!");
       return;
     }
-    
   };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div>
@@ -92,11 +124,9 @@ export function SignupForm(props) {
             Sign in Here!
           </BoldLink>
         </MutedLink>
-        
-        <h6 className="errorMessage" style={{ color: 'red', textAlign: "center"}}>{error}</h6>
       </BoxContainer>
-      
-    </div>
-    
+
+      {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
+    </div> 
   );
 }
