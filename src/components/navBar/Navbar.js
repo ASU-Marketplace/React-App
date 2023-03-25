@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import { Link, useMatch, useResolvedPath} from "react-router-dom";
@@ -9,9 +9,20 @@ import { auth } from "../../firebase";
 import {signOut,} from "firebase/auth";
 
 function NavBar(){
+    const user = null; 
     const [isDropdownVisible, setDropdownVisible] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true); //change true or false depending if the user is logged in or out(true means logged in)
+    const [isLoggedIn, setIsLoggedIn] = useState(false); //change true or false depending if the user is logged in or out(true means logged in)
     const [searchTerm, setSearchTerm] = useState("");
+
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+          setIsLoggedIn(true);
+          //console.log("logged in");
+        } else {
+            setIsLoggedIn(false);
+            //console.log("logged out");
+        }
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,16 +31,13 @@ function NavBar(){
 
     const logout = async () => {
         await signOut(auth);
-      };
+    };
 
-    
-    const user = auth.currentUser;
- 
     //Report an Account Modal
     const [modalOpen, setModalOpen] = useState(false);
 
     return <nav className='nav'>
-
+        
         <Link 
         to='/' className="siteTitle">
             <img src={logo} className="logo" alt="img"/>
@@ -69,9 +77,6 @@ function NavBar(){
         </>
         : 
         ""}
-
-
-        
 
         <li className='account-items'
             onMouseEnter={() => setDropdownVisible(true)}
@@ -134,3 +139,4 @@ function CustomLink({to, children, ...props}){
         </li> 
     )
 }
+

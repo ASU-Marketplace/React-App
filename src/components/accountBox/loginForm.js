@@ -14,6 +14,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 
@@ -47,6 +48,16 @@ export function LoginForm(props) {
       console.log(user);
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  const sendPasswordReset = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset link sent!");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
     }
   };
 
