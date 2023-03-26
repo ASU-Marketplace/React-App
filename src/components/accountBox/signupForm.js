@@ -47,21 +47,28 @@ export function SignupForm(props) {
 
   const register = async () => {
     if (confirmedPassword === registerPassword) {
-      try {
-        const user = await createUserWithEmailAndPassword(
-          auth,
-          registerEmail,
-          registerPassword
-        ).then(routeChange).then(
-            updateProfile(auth.currentUser, {
-              displayName: `'${registerName}'`
-            }));
-        console.log(user);     
-      } catch (error) {
-        console.log(error.message);
-        setErrorVisible(true);
+      if (registerEmail.endsWith("@asu.edu")) {
+        try {
+          const user = await createUserWithEmailAndPassword(
+            auth,
+            registerEmail,
+            registerPassword
+          ).then(routeChange).then(
+              updateProfile(auth.currentUser, {
+                displayName: `'${registerName}'`
+              }));
+          console.log(user);     
+        } catch (error) {
+          console.log(error.message);
+          setErrorVisible(true);
+          setOpen(true);
+          setErrorMessage(error.message);
+        }
+      } else {
         setOpen(true);
-        setErrorMessage(error.message);
+        setErrorVisible(true);
+        setErrorMessage("E-mail must be a valid ASU E-mail!");
+        return;
       }
     } else {
       setOpen(true);
