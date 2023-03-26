@@ -114,7 +114,6 @@ export function SignupForm(props) {
             }}/>
         </FormContainer>
         <Marginer direction="vertical" margin={10} />
-
         <SubmitButton type="submit" onClick={register}>Sign Up</SubmitButton>
 
         <Marginer direction="vertical" margin="1em" />
