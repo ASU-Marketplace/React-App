@@ -20,49 +20,46 @@ import {
 } from "firebase/firestore";
 
 function UsersComponent(props) {
-	const user = auth.currentUser;
-	//const username = auth.currentUser.displayName;
+	const handleToggle = (username, userId) => {
+	  props.setReceiverData({
+		username: username,
+		userId: userId,
+	  });
+	
+	  props.navigate(`/chat-home/${userId}`);
+	};
 
-// const handleToggle = (username, userId) => {
-// 	props.setReceiverData({
-// 	username: username,
-// 	userId: userId,
-// 	});
-
-// 	props.navigate(`/chat/${userId}`);
-// };
-
-return (
-	<List
-	dense
-	sx={{ width: "100%", maxWidth: 360,
-			bgcolor: "background.paper" }}
-	>
-	{props.users?.map((value, index) => {
-		const labelId = `checkbox-list-secondary-label-${value}`;
-
-		if (props.currentUserId !== value.userId)
-		return (
-			<ListItem key={value.userId} disablePadding>
-			<ListItemButton
-				onClick={() => {
-				//handleToggle(value.username, value.userId);
-				}}
-			>
-				<ListItemAvatar>
-				<Avatar
-					alt={`${value.username}`}
-					src={`${value.username}.jpg`}
-				/>
-				</ListItemAvatar>
-				<ListItemText id={labelId}
-						primary={`${value.username}`} />
-			</ListItemButton>
-			</ListItem>
-		);
-	})}
-	</List>
-);
+	return (
+		<List
+		  dense
+		  sx={{ width: "100%", maxWidth: 360, 
+				  bgcolor: "background.paper" }}
+		>
+		  {props.users?.map((value, index) => {
+			const labelId = `checkbox-list-secondary-label-${value}`;
+	  
+			if (props.currentUserId !== value.userId)
+			  return (
+				<ListItem key={value.userId} disablePadding>
+				  <ListItemButton
+					onClick={() => {
+					  handleToggle(value.username, value.userId);
+					}}
+				  >
+					<ListItemAvatar>
+					  <Avatar
+						alt={`${value.username}`}
+						src={`${value.username}.jpg`}
+					  />
+					</ListItemAvatar>
+					<ListItemText id={labelId} 
+							primary={`${value.username}`} />
+				  </ListItemButton>
+				</ListItem>
+			  );
+		  })}
+		</List>
+	  );
 }
 
 export const ChatHome = () => {
@@ -113,43 +110,45 @@ useEffect(() => {
 
 const sendMessage = async () => {
 	try {
-	if (user && receiverData) {
-		await addDoc(
-		collection(
-			db,
-			"users",
-			user.uid,
-			"chatUsers",
-			receiverData.userId,
-			"messages"
-		),
-		{
-			username: user.displayName,
-			messageUserId: user.uid,
-			message: chatMessage,
-			timestamp: new Date(),
-		}
-		);
+		console.log(user);
+		console.log(receiverData);
+		if (user && receiverData) {
+			await addDoc(
+				collection(
+					db,
+					"users",
+					user.uid,
+					"chatUsers",
+					receiverData.userId,
+					"messages"
+				),
+				{
+					username: user.displayName,
+					messageUserId: user.uid,
+					message: chatMessage,
+					timestamp: new Date(),
+				}
+			);
 
-		await addDoc(
-		collection(
-			db,
-			"users",
-			receiverData.userId,
-			"chatUsers",
-			user.uid,
-			"messages"
-		),
-		{
-			username: user.displayName,
-			messageUserId: user.uid,
-			message: chatMessage,
-			timestamp: new Date(),
+			await addDoc(
+			collection(
+				db,
+				"users",
+				receiverData.userId,
+				"chatUsers",
+				user.uid,
+				"messages"
+			),
+			{
+				username: user.displayName,
+				messageUserId: user.uid,
+				message: chatMessage,
+				timestamp: new Date(),
+			}
+			);
 		}
-		);
-	}
 	} catch (error) {
-	console.log(error);
+		console.log(error);
 	}
 	setChatMessage("");
 };

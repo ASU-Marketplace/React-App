@@ -53,10 +53,12 @@ export function SignupForm(props) {
             auth,
             registerEmail,
             registerPassword
-          ).then(routeChange).then(
-              updateProfile(auth.currentUser, {
-                displayName: `'${registerName}'`
-              }));
+          ).then(routeChange);
+
+          const update = await updateProfile(auth.currentUser, {
+            displayName: registerName,
+          });
+
           console.log(user);     
         } catch (error) {
           console.log(error.message);
