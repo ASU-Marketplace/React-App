@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
+import { auth } from "../../firebase";
 
 export function AccountDetails() {
   const [name, setName] = useState("");
@@ -26,10 +27,14 @@ export function AccountDetails() {
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
     setPreviewURL(URL.createObjectURL(event.target.files[0]));
+    
   };
+
+  const user = auth.currentUser;
 
   return (
     <div className="account-details-container">
+      <h2>Currently Logged in as: </h2> {user?.email}
       <div className="form-group">
         <label htmlFor="picture">Profile Picture:</label>
         <input

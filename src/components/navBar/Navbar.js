@@ -1,26 +1,43 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons'
-import { Link, useMatch, useResolvedPath} from "react-router-dom"
-import logo from '../../images/asu.png'
-import './styles.css'
-import Modal from "../accountReport"
+import React, { Component, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { Link, useMatch, useResolvedPath} from "react-router-dom";
+import logo from '../../images/asu.png';
+import './styles.css';
+import Modal from "../accountReport";
+import { auth } from "../../firebase";
+import {signOut,} from "firebase/auth";
 
 function NavBar(){
+    const user = null; 
     const [isDropdownVisible, setDropdownVisible] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true); //change true or false depending if the user is logged in or out(true means logged in)
+    const [isLoggedIn, setIsLoggedIn] = useState(false); //change true or false depending if the user is logged in or out(true means logged in)
     const [searchTerm, setSearchTerm] = useState("");
+
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+          setIsLoggedIn(true);
+          //console.log("logged in");
+        } else {
+            setIsLoggedIn(false);
+            //console.log("logged out");
+        }
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();
         // Perform search using the value in searchTerm
     };
 
+    const logout = async () => {
+        await signOut(auth);
+    };
+
     //Report an Account Modal
     const [modalOpen, setModalOpen] = useState(false);
 
     return <nav className='nav'>
-
+        
         <Link 
         to='/' className="siteTitle">
             <img src={logo} className="logo" alt="img"/>
@@ -61,9 +78,6 @@ function NavBar(){
         : 
         ""}
 
-
-        
-
         <li className='account-items'
             onMouseEnter={() => setDropdownVisible(true)}
             onMouseLeave={() => setDropdownVisible(false)}>
@@ -101,10 +115,8 @@ function NavBar(){
                 <div className="dropdown-item">Report an Account</div>
             </Link>
 
-            <Link to="accountSignUp" className="--">
-                <div className="dropdown-item-logout">
-                    Log out
-                </div>
+            <Link to="/accountSignUp" onClick={logout}>
+                <div className="dropdown-item-logout">Log Out </div>
             </Link>
             </div>
         )}
@@ -120,10 +132,11 @@ function CustomLink({to, children, ...props}){
     const isActive = useMatch({path: resolvedPath.pathname, end : true})
 
     return(
-        <li className={isActive ? "active" : ""}>
+        <div className={isActive ? "active" : ""}>
             <Link 
             to={to} {...props}>{children}
             </Link>
-        </li> 
+        </div> 
     )
 }
+
