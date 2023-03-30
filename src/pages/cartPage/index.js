@@ -54,7 +54,9 @@ export function Cart() {
                 //console.log(cart, newData);
                 newData.forEach((values,keys)=>{
                   products.push(values.product);
+                  console.log("adding product");
                 });
+                console.log(products);
             })
     }
 
