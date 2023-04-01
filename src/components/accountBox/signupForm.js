@@ -16,10 +16,11 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { doc, setDoc } from "firebase/firestore";
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -58,6 +59,14 @@ export function SignupForm(props) {
           const update = await updateProfile(auth.currentUser, {
             displayName: registerName,
           });
+
+          setDoc(doc(db, "users", user.uid), {
+            username: registerName,
+            email: registerEmail,
+            userId: user.uid,
+            timestamp: new Date(),
+          });
+      
 
           console.log(user);     
         } catch (error) {

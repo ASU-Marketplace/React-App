@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAyEP-kjqYm84_oixqlwXJXChTyNa0U4m4",
   authDomain: "asu-marketplace-app.firebaseapp.com",
@@ -13,4 +15,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-export { db, auth };
+const storage = getStorage();
+export { db, auth, storage };

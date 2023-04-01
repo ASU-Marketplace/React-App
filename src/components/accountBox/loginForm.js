@@ -49,7 +49,7 @@ export function LoginForm(props) {
         loginEmail,
         loginPassword
       ).then(routeChange);
-      console.log(user);
+      //console.log(user);
     } catch (error) {
       console.log(error.message);
       setErrorVisible(true);
