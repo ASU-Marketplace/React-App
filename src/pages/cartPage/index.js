@@ -30,9 +30,11 @@ export function Cart() {
       () => {
         async function test() {
             await getDocs(collection(db, user.email + " cart")).then(querySnapshot => {
-                setCart(querySnapshot.docs.map(doc => doc.data()));
+                setCart(querySnapshot.docs.map(doc => doc.data().product));
             });
-            console.log("refreshed cart");
+            cart.forEach(element => {
+                console.log(element.product);
+            });
         }
         test();
       }, [user])
