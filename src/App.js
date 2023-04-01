@@ -3,13 +3,29 @@ import NavBar from "./components/navBar/Navbar"
 import { AccountBox } from "./pages/accountSignUp"
 import { Cart } from "./pages/cartPage"
 import { Home } from "../src/pages/index"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate } from "react-router-dom"
 import { AccountDetails } from "./pages/accountDetails"
 import { ProductListing } from "./pages/createListing"
 import { UserListing } from './pages/userListings'
 import { ChatHome } from "./pages/chatPage/ChatHome";
+import { HomeChat } from "./pages/chatPage/HomeChat";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
+import Register from "./pages/Register";
+
 
 function App() {
+
+  const { currentUser } = useContext(AuthContext);
+
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
+    }
+
+    return children
+  };
+
   return (
 <>
 
@@ -21,7 +37,8 @@ function App() {
     <Route path="/accountSignUp" element={<AccountBox/>}/>
     <Route path="/accountDetails" element={<AccountDetails/>}/>
     <Route path="/createListing" element={<ProductListing/>}/>
-    <Route path="/chat" element={<ChatHome/>}/>
+    <Route path="/chat" element={<HomeChat/>}/>
+    <Route path="register" element={<Register />} />
     <Route path="listings" element={<UserListing/>}/>
   </Routes>
 </div>

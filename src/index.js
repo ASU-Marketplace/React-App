@@ -1,17 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./context/AuthContext";
+import { ChatContextProvider } from "./context/ChatContext";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-    <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <AuthContextProvider>
+    <ChatContextProvider>
+    <React.StrictMode>
+      <BrowserRouter>
+      <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  </ChatContextProvider>
+  </AuthContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
