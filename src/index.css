@@ -97,6 +97,14 @@ code {
   transition: .4s;
 }
 
+#customNavLinks:hover {
+  background-color: #777;
+  border-radius: 10px 10px 10px 10px;
+  margin: 5px 0;
+  padding: 5px 0;
+  transition: .4s;
+}
+
 .navbarIcon {
   margin-right: .5rem;
   height: 1.5rem;
