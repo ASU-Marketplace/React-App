@@ -13,7 +13,6 @@ import { useNavigate} from "react-router-dom";
 import {
   sendPasswordResetEmail,
   onAuthStateChanged,
-  signOut,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import Snackbar from '@mui/material/Snackbar';
@@ -21,9 +20,8 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 export function ResetPasswordForm(props) {
-  const { switchToSignin, switchToSignup, switchToReset } = useContext(AccountContext);
-  const path = window.location.pathname
-
+  const { switchToSignin, switchToSignup } = useContext(AccountContext);
+  
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
     let path = `/accountSignUp`; 
@@ -64,10 +62,6 @@ export function ResetPasswordForm(props) {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   const handleClick = () => {
     setOpen(true);
   };
@@ -92,7 +86,7 @@ export function ResetPasswordForm(props) {
   );
 
   return (
-    <div>
+    <>
       <BoxContainer>
         <FormContainer>
           <Input type="email" placeholder="Your ASU E-mail"
@@ -109,20 +103,16 @@ export function ResetPasswordForm(props) {
         <SubmitButton type="submit" onClick={resetPassword}>Reset Password</SubmitButton>
         
         <Marginer direction="vertical" margin="1em" />
-        <MutedLink href="#">
-          Don't have an account?{" "}
-          <BoldLink href="#" onClick={switchToSignup}>
-            Sign up Here!
-          </BoldLink>
-        </MutedLink>
-        <MutedLink href="#">
-          Got your password?{" "}
-          <BoldLink href="#" onClick={switchToSignin}>
-            Sign in Here!
-          </BoldLink>
-        </MutedLink>
+        <span>
+          <MutedLink href="#">Don't have an account?{" "}</MutedLink>
+          <BoldLink href="#" onClick={switchToSignup}>Sign up Here!</BoldLink>
+        </span>
+        <span>
+          <MutedLink href="#">Got your password?{" "}</MutedLink>
+          <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
+        </span> 
       </BoxContainer>
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
-    </div>
+    </>
   );
 }

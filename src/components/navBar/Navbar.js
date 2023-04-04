@@ -6,7 +6,7 @@ import logo from '../../images/asu.png';
 import './styles.css';
 import Modal from "../accountReport";
 import { auth } from "../../firebase";
-import {signOut,} from "firebase/auth";
+import {signOut} from "firebase/auth";
 
 function NavBar(){
     const user = null; 
@@ -132,8 +132,8 @@ function CustomLink({to, children, ...props}){
     const isActive = useMatch({path: resolvedPath.pathname, end : true})
 
     return(
-        <div className={isActive ? "active" : ""} id="customNavLinks">
-            <Link 
+        <div className={isActive ? "active" : ""} >
+            <Link id="customNavLinks"
             to={to} {...props}>{children}
             </Link>
         </div> 

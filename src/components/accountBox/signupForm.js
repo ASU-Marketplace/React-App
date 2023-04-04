@@ -13,16 +13,15 @@ import { useNavigate, Link} from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
   updateProfile,
 } from "firebase/auth";
 import { auth, db, storage } from "../../firebase";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Add from "../../images/addAvatar.png";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import Add from "../../images/addAvatar.png";
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -33,102 +32,85 @@ export function SignupForm(props) {
     navigate(path);
   }
  
+  const [user, setUser] = useState({});
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerName, setRegisterName] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const [isErrorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
-
-  const [user, setUser] = useState({});
-
-  const date = new Date().getTime();
-  const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
-  // });
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
 
-  const handleSubmit = async (e) => {
+  const register = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const displayName = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-    const file = e.target[3].files[0];
 
-    try {
-      //Create user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (confirmedPassword === registerPassword) {
+      if (registerEmail.endsWith("@asu.edu")) {
+        try {
+          const res = await createUserWithEmailAndPassword(
+            auth,
+            registerEmail,
+            registerPassword
+          ).then(routeChange);
 
-      //Create a unique image name
-      const date = new Date().getTime();
-      const storageRef = ref(storage, `${displayName + date}`);
+          const date = new Date().getTime();
+          const storageRef = ref(storage, `${registerName + date}`);
 
-      await uploadBytesResumable(storageRef, file).then(() => {
-        getDownloadURL(storageRef).then(async (downloadURL) => {
-          try {
-            //Update profile
-            await updateProfile(res.user, {
-              displayName,
-              photoURL: downloadURL,
+          await uploadBytesResumable(storageRef).then(() => {
+            getDownloadURL(storageRef).then(async (downloadURL) => {
+              try {
+                //Update profile
+                await updateProfile(res.user, {
+                  displayName: registerName,
+                  //photoURL: downloadURL,
+                });
+                //create user on firestore
+                await setDoc(doc(db, "users", res.user.uid), {
+                  uid: res.user.uid,
+                  displayName: registerName,
+                  email: registerEmail,
+                  //photoURL: downloadURL,
+                });
+    
+                //create empty user chats on firestore
+                await setDoc(doc(db, "userChats", res.user.uid), {});
+                navigate("/");
+              } catch (err) {
+                console.log(err);
+                setErrorVisible(true);
+                setLoading(false);
+              }
             });
-            //create user on firestore
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              displayName,
-              email,
-              photoURL: downloadURL,
-            });
-
-            //create empty user chats on firestore
-            await setDoc(doc(db, "userChats", res.user.uid), {});
-            navigate("/");
-          } catch (err) {
-            console.log(err);
-            setErr(true);
-            setLoading(false);
-          }
-        });
-      });
-    } catch (err) {
-      setErr(true);
-      setLoading(false);
+          });
+          console.log(user);     
+        } catch (error) {
+          console.log(error.message);
+          setErrorVisible(true);
+          setOpen(true);
+          setErrorMessage(error.message);
+          setLoading(false);
+        }
+      } else {
+        setOpen(true);
+        setErrorVisible(true);
+        setErrorMessage("E-mail must be a valid ASU E-mail!");
+        return;
+      }
+    } else {
+      setOpen(true);
+      setErrorVisible(true);
+      setErrorMessage("Passwords do not match!");
+      return;
     }
   };
-
-  // const register = async () => {
-  //   if (confirmedPassword === registerPassword) {
-  //     if (registerEmail.endsWith("@asu.edu")) {
-  //       try {
-  //         const user = await createUserWithEmailAndPassword(
-  //           auth,
-  //           registerEmail,
-  //           registerPassword
-  //         ).then(routeChange);     
-  //         console.log(user);     
-  //       } catch (error) {
-  //         console.log(error.message);
-  //         setErrorVisible(true);
-  //         setOpen(true);
-  //         setErrorMessage(error.message);
-  //       }
-  //     } else {
-  //       setOpen(true);
-  //       setErrorVisible(true);
-  //       setErrorMessage("E-mail must be a valid ASU E-mail!");
-  //       return;
-  //     }
-  //   } else {
-  //     setOpen(true);
-  //     setErrorVisible(true);
-  //     setErrorMessage("Passwords do not match!");
-  //     return;
-  //   }
-  // };
 
   const handleClick = () => {
     setOpen(true);
@@ -138,6 +120,7 @@ export function SignupForm(props) {
     if (reason === 'clickaway') {
       return;
     }
+
     setOpen(false);
   };
 
@@ -155,42 +138,39 @@ export function SignupForm(props) {
   );
 
   return (
-    <div>
+    <>
       <BoxContainer>
         <FormContainer>
-          <Input type="text" placeholder="Full Name" onChange={(event) => {
+          <Input required type="text" placeholder="Full Name" onChange={(event) => {
             setRegisterName(event.target.value);
           }}/>          
-          <Input type="email" placeholder="Your ASU E-mail" onChange={(event) => {
+          <Input required type="email" placeholder="Your ASU E-mail" onChange={(event) => {
             setRegisterEmail(event.target.value);
           }} />
-          <Input type="password" placeholder="Password" onChange={(event) => {
+          <Input required type="password" placeholder="Password" onChange={(event) => {
               setRegisterPassword(event.target.value);
             }}/>
-          <Input type="password" placeholder="Confirm Password" onChange={(event) => {
+          <Input required type="password" placeholder="Confirm Password" onChange={(event) => {
               setConfirmedPassword(event.target.value);
             }}/>
-          <Input required style={{ display: "none" }} type="file" id="file" />
+          {/* <Input required style={{ display: "none" }} type="file" id="file" onChange={(event) => {
+              setAvatar(event.target.value); }} />
           <label htmlFor="file">
             <img src={Add} alt="" />
             <span>Add an avatar</span>
-          </label>
-          {loading && "Uploading and compressing the image please wait..."}
-          {err && <span>Something went wrong</span>}
+          </label> */}
         </FormContainer>
         <Marginer direction="vertical" margin={10} />
-        <SubmitButton type="submit" onClick={handleSubmit}>Sign Up</SubmitButton>
+        <SubmitButton disabled={loading} type="submit" onClick={register}>Sign Up</SubmitButton>
 
         <Marginer direction="vertical" margin="1em" />
-        <MutedLink href="#">
-          Already have an account?
-          <BoldLink href="#" onClick={switchToSignin}>
-            Sign in Here!
-          </BoldLink>
-        </MutedLink>
+        <span>
+          <MutedLink href="#">Already have an account?</MutedLink>
+          <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
+        </span>
       </BoxContainer>
-
+      {/* {loading && "Uploading and compressing the image please wait..."} */}
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
-    </div> 
+    </> 
   );
-}
+};

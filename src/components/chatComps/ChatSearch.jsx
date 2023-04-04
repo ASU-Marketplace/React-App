@@ -12,7 +12,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { AuthContext } from "../../context/AuthContext";
-const Search = () => {
+
+const ChatSearch = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
@@ -100,4 +101,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default ChatSearch;

@@ -1,10 +1,11 @@
 import React from 'react'
 import Sidebar from '../../components/chatComps/Sidebar'
 import Chat from '../../components/chatComps/Chat'
+import "./style.css";
 
 export const HomeChat = () => {
   return (
-    <div className='home'>
+    <div className='chatHome'>
       <div className="container">
         <Sidebar/>
         <Chat/>
