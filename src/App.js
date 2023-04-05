@@ -30,7 +30,7 @@ function App() {
 <NavBar/>
 <div className='container'>
   <Routes>
-    <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+    <Route path="/" element={<Home/>}/>
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/accountSignUp" element={<AccountBox/>} />
     <Route path="/accountDetails" element={<AccountDetails/>} />

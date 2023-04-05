@@ -108,7 +108,7 @@
 
     .sidebar {
       flex: 1;
-      background-color: whitesmoke;
+      background-color: #fae5c8;
       position: relative;
       border: 1px solid black;
 
@@ -171,10 +171,11 @@
         align-items: center;
         gap: 20px;
         color: black;
+        
         cursor: pointer;
 
         &:hover {
-          background-color: gold;
+          background-color: white;
         }
 
         img {
@@ -188,11 +189,13 @@
           span {
             font-size: 16px;
             font-weight: bold;
+            margin-bottom: 0px;
           }
           p {
             font-size: 14px;
             color: black;
             font-style: italic;
+            margin-bottom: 0px;
 
           }
         }
@@ -203,7 +206,7 @@
 
       .chatInfo {
         height: 80px;
-        background-color: lightgray;
+        background-color: whitesmoke;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -222,7 +225,7 @@
       }
 
       .messages {
-        background-color: whitesmoke;
+        background-color: #ffdfb3;
         padding: 10px;
         height: calc(100% - 160px);
         overflow: scroll;
@@ -239,8 +242,8 @@
             font-weight: 300;
 
             img {
-              width: 40px;
-              height: 40px;
+              width: 24px;
+              height: 24px;
               border-radius: 50%;
               object-fit: cover;
             }
@@ -279,12 +282,13 @@
       }
 
       .input {
-        height: 50px;
+        height: 70px;
         background-color: white;
         padding: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+       
 
         input {
           width: 100%;
@@ -292,20 +296,23 @@
           outline: none;
           color: black;
           font-size: 18px;
+          display: inline-block;
 
           &::placeholder {
-            color: black;
+            color: lightgray;
           }
-        }
+        }      
 
         .send {
           display: flex;
           align-items: center;
           gap: 10px;
+          display: inline;
 
           img {
             height: 24px;
             cursor: pointer;
+            margin-left: 20px;
           }
 
           button {
