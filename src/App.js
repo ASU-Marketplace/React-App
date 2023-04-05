@@ -14,7 +14,15 @@ import { AuthContext } from "./context/AuthContext";
 
 
 function App() {
+  const { currentUser } = useContext(AuthContext);
 
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/accountSignUp" />;
+    }
+
+    return children
+  };
 
   return (
 <>
@@ -22,10 +30,10 @@ function App() {
 <NavBar/>
 <div className='container'>
   <Routes>
-    <Route path="/" element={<Home/>}/>
+    <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
     <Route path="/cart" element={<Cart/>}/>
-    <Route path="/accountSignUp" element={<AccountBox/>}/>
-    <Route path="/accountDetails" element={<AccountDetails/>}/>
+    <Route path="/accountSignUp" element={<AccountBox/>} />
+    <Route path="/accountDetails" element={<AccountDetails/>} />
     <Route path="/createListing" element={<ProductListing/>}/>
     <Route path="/chat" element={<HomeChat/>}/>
     <Route path="listings" element={<UserListing/>}/>

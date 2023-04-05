@@ -1,16 +1,21 @@
-import React, { useContext } from 'react'
-import {signOut} from "firebase/auth"
+import React, { useContext, useState } from 'react'
+import {onAuthStateChanged, signOut} from "firebase/auth"
 import { auth } from '../../firebase'
 import { AuthContext } from '../../context/AuthContext'
 
 const ChatNavbar = () => {
-  const {currentUser} = useContext(AuthContext)
+  //const {currentUser} = useContext(AuthContext)
+  const [currentUser, setCurrentUser] = useState("");
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setCurrentUser(currentUser);
+  });
 
   return (
     <div className='chatNavbar' >
-      <span className="logo">ASU Marketplace Chat</span>
+      <span className="chatTitle">ASU Marketplace Chat</span>
       <div className="user">
-        <img src={currentUser.photoURL} alt="profile pic" />
+        <img src={currentUser.photoURL} alt="" />
         <span>{currentUser.displayName}</span>
       </div>
     </div>

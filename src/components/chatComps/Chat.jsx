@@ -6,9 +6,6 @@ import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../../context/ChatContext";
  
-var chatStyling = {
-  
-}
 
 const Chat = () => {
   const { data } = useContext(ChatContext);

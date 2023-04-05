@@ -37,12 +37,12 @@ export function SignupForm(props) {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerName, setRegisterName] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [avatar, setAvatar] = useState("");
 
   const [isErrorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [avatar, setAvatar] = useState(null);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -51,37 +51,42 @@ export function SignupForm(props) {
   const register = async (e) => {
     setLoading(true);
     e.preventDefault();
+    const displayName = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+    const confPassword = e.target[3].value;
+    const file = e.target[4].files[0];
 
-    if (confirmedPassword === registerPassword) {
-      if (registerEmail.endsWith("@asu.edu")) {
+    if (confPassword === password) {
+      if (email.endsWith("@asu.edu")) {
         try {
           const res = await createUserWithEmailAndPassword(
             auth,
-            registerEmail,
-            registerPassword
-          ).then(routeChange);
+            email,
+            password
+          );
 
           const date = new Date().getTime();
           const storageRef = ref(storage, `${registerName + date}`);
 
-          await uploadBytesResumable(storageRef).then(() => {
+          await uploadBytesResumable(storageRef, file).then(() => {
             getDownloadURL(storageRef).then(async (downloadURL) => {
               try {
                 //Update profile
                 await updateProfile(res.user, {
-                  displayName: registerName,
-                  //photoURL: downloadURL,
+                  displayName: displayName,
+                  photoURL: downloadURL,
                 });
                 //create user on firestore
                 await setDoc(doc(db, "users", res.user.uid), {
                   uid: res.user.uid,
-                  displayName: registerName,
-                  email: registerEmail,
-                  //photoURL: downloadURL,
+                  displayName: displayName,
+                  email: email,
+                  photoURL: downloadURL,
                 });
     
-                //create empty user chats on firestore
-                await setDoc(doc(db, "userChats", res.user.uid), {});
+                 //create empty user chats on firestore
+                  await setDoc(doc(db, "userChats", res.user.uid), {});
                 navigate("/");
               } catch (err) {
                 console.log(err);
@@ -90,7 +95,7 @@ export function SignupForm(props) {
               }
             });
           });
-          console.log(user);     
+          //console.log(user);     
         } catch (error) {
           console.log(error.message);
           setErrorVisible(true);
@@ -140,8 +145,18 @@ export function SignupForm(props) {
   return (
     <>
       <BoxContainer>
-        <FormContainer>
-          <Input required type="text" placeholder="Full Name" onChange={(event) => {
+        {/* <FormContainer> */}
+        <form onSubmit={register}>
+        <input required type="text" placeholder="display name" />
+          <input required type="text" placeholder="email" />
+          <input required type="password" placeholder="password" />
+          <input required type="password" placeholder="password" />
+          <input required style={{ display: "none" }} type="file" id="file" />
+          <label htmlFor="file">
+            <img src={Add} alt="" />
+            <span>Add an avatar</span>
+          </label>
+          {/* <Input required type="text" placeholder="Full Name" onChange={(event) => {
             setRegisterName(event.target.value);
           }}/>          
           <Input required type="email" placeholder="Your ASU E-mail" onChange={(event) => {
@@ -153,15 +168,16 @@ export function SignupForm(props) {
           <Input required type="password" placeholder="Confirm Password" onChange={(event) => {
               setConfirmedPassword(event.target.value);
             }}/>
-          {/* <Input required style={{ display: "none" }} type="file" id="file" onChange={(event) => {
-              setAvatar(event.target.value); }} />
+         <input required style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <img src={Add} alt="" />
             <span>Add an avatar</span>
           </label> */}
-        </FormContainer>
+        {/* </FormContainer> */}
+        <SubmitButton disabled={loading}>Sign up</SubmitButton>
+        </form>
         <Marginer direction="vertical" margin={10} />
-        <SubmitButton disabled={loading} type="submit" onClick={register}>Sign Up</SubmitButton>
+        {/* <SubmitButton disabled={loading} type="submit" onClick={register}>Sign Up</SubmitButton> */}
 
         <Marginer direction="vertical" margin="1em" />
         <span>
@@ -169,7 +185,7 @@ export function SignupForm(props) {
           <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
         </span>
       </BoxContainer>
-      {/* {loading && "Uploading and compressing the image please wait..."} */}
+      {loading && "Uploading and compressing the image please wait..."}
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
     </> 
   );
