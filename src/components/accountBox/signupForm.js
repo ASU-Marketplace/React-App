@@ -21,7 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import Add from "../../images/addAvatar.png";
+import Add from "../../images/user.png";
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -102,6 +102,7 @@ export function SignupForm(props) {
           setOpen(true);
           setErrorMessage(error.message);
           setLoading(false);
+          
         }
       } else {
         setOpen(true);
@@ -145,47 +146,27 @@ export function SignupForm(props) {
   return (
     <>
       <BoxContainer>
-        {/* <FormContainer> */}
         <form onSubmit={register}>
-        <input required type="text" placeholder="display name" />
-          <input required type="text" placeholder="email" />
-          <input required type="password" placeholder="password" />
-          <input required type="password" placeholder="password" />
-          <input required style={{ display: "none" }} type="file" id="file" />
-          <label htmlFor="file">
-            <img src={Add} alt="" />
-            <span>Add an avatar</span>
+        <Input required type="text" placeholder="display name" />
+          <Input required type="text" placeholder="email" />
+          <Input required type="password" placeholder="password" />
+          <Input required type="password" placeholder="password" />
+          <input  style={{ display: "none" }} type="file" id="file" />
+          <label htmlFor="file" style={{dispaly:"inline-block"}}>
+          <span style={{fontSize: "13px", color: "rgba(68,65,66,0.8)", weight: "500", position:"absolute", marginTop:"20px", marginLeft:"10px"}}>
+              Upload a profile picture!</span>
+            <img src={Add} alt="" style={{width: "20%", marginRight: "20px", marginBottom:"5px", marginTop:"5px",float: "right"}}/>
           </label>
-          {/* <Input required type="text" placeholder="Full Name" onChange={(event) => {
-            setRegisterName(event.target.value);
-          }}/>          
-          <Input required type="email" placeholder="Your ASU E-mail" onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }} />
-          <Input required type="password" placeholder="Password" onChange={(event) => {
-              setRegisterPassword(event.target.value);
-            }}/>
-          <Input required type="password" placeholder="Confirm Password" onChange={(event) => {
-              setConfirmedPassword(event.target.value);
-            }}/>
-         <input required style={{ display: "none" }} type="file" id="file" />
-          <label htmlFor="file">
-            <img src={Add} alt="" />
-            <span>Add an avatar</span>
-          </label> */}
-        {/* </FormContainer> */}
         <SubmitButton disabled={loading}>Sign up</SubmitButton>
         </form>
         <Marginer direction="vertical" margin={10} />
-        {/* <SubmitButton disabled={loading} type="submit" onClick={register}>Sign Up</SubmitButton> */}
-
         <Marginer direction="vertical" margin="1em" />
         <span>
           <MutedLink href="#">Already have an account?</MutedLink>
           <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
         </span>
       </BoxContainer>
-      {loading && "Uploading and compressing the image please wait..."}
+      {loading && <Snackbar open={open} message={"Uploading image..."} onClose={handleClose} autoHideDuration={6000} action={action}/>}
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
     </> 
   );
