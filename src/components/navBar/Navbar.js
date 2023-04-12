@@ -106,15 +106,6 @@ function NavBar(){
                 <div className="dropdown-item">My Listings</div>
             </Link>
 
-            <Link to="" className="--"
-                // onClick={() => {
-                // setModalOpen(true);
-                // }}
-                >
-                    {/* {modalOpen && <Modal setOpenModal={setModalOpen} />} */}
-                <div className="dropdown-item">Report an Account</div>
-            </Link>
-
             <Link to="/accountSignUp" onClick={logout}>
                 <div className="dropdown-item-logout">Log Out </div>
             </Link>
