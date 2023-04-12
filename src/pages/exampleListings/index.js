@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function ExampleListings() {
+ export function ExampleListings() {
   return (
     <body>
       <h1 style={{ textAlign: "center" }}>Item name: Jansport backpack</h1>
@@ -24,3 +24,5 @@ export function ExampleListings() {
     </body>
   );
 }
+
+export default ExampleListings;
