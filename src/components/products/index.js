@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton} from '@material-ui/core';
-import { AddShoppingCart, Flag } from '@material-ui/icons'
-
+import { AddShoppingCart, NewReleasesRounded } from '@material-ui/icons'
 import useStyles from './styles';
 //import { addToCartDB, addValue, getValue } from '../../server/dbconnection';
 import { db, auth } from "../../firebase";
@@ -88,12 +87,6 @@ const Product = ({ product }) => {
           onClick={addToCartDB_TEST}
         >
           <AddShoppingCart />
-        </IconButton>
-
-        <IconButton 
-        aria-label="Report an Account" 
-        >
-          <Flag />
         </IconButton>
       </CardActions>
     </Card>

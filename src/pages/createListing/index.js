@@ -9,8 +9,13 @@ export function ProductListing(){
     const [editMode, setEditMode] = useState(null);
     const category = ["Apparel", "Technology", "Decor", "Other"];
     const condition = ["Poor", "Less than average", "Average", "Above average", "Mint"];
+    
+    
+    const handleEdit = () => {
+        setEditMode(true);
+    }
 
-    const handleCreate = () => {
+    const handleSave = () => {
         setEditMode(false);
     }
 
@@ -36,6 +41,7 @@ export function ProductListing(){
                     type="file"
                     accept="image/*"
                     onChange={handlePictureChange}
+                    disabled={!editMode}
                 />
                 {previewURL && (
                     <div>
@@ -57,6 +63,7 @@ export function ProductListing(){
                     type="text"
                     value={name}
                     onChange={(edit) => setName(edit.target.value)}
+                    disabled={!editMode}
                 />
             </div>
 
@@ -77,6 +84,7 @@ export function ProductListing(){
                     className="categorySelect"
                     id="category"
                     value={selectedCategory}
+                    disabled={!editMode}
                     onChange={(edit) => setSelectedCategory(edit.target.value)}
                 >
                     {category.map((value) => (
@@ -93,6 +101,7 @@ export function ProductListing(){
                     className="conditionSelect"
                     id="condition"
                     value={selectedCondition}
+                    disabled={!editMode}
                     onChange={(edit) => setSelectedCondition(edit.target.value)}
                 >
                     {condition.map((value) => (
@@ -104,11 +113,15 @@ export function ProductListing(){
             </div>
 
             <div className="form-group">
-                {
-                    <button className="btn-save" onClick={handleCreate}>
-                        Create Listing
+                {editMode ? (
+                    <button className="btn-save" onClick={handleSave}>
+                        Save
                     </button>
-                }
+                ) : (
+                    <button className="btn-edit" onClick={handleEdit}>
+                        Edit
+                    </button>
+                )}
             </div>    
         </div>
         
