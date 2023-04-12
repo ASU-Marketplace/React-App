@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { auth } from "../../firebase";
+import { auth, db, storage } from "../../firebase";
+import { updateProfile, onAuthStateChanged } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export function AccountDetails() {
+  const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [picture, setPicture] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const options = ["Tempe", "Poly", "West", "Downtown"];
+  const options = ["Tempe", "Poly", "West", "Downtown", "Online"];
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
 
   const handleEdit = () => {
     setEditMode(true);
@@ -19,9 +27,23 @@ export function AccountDetails() {
     console.log(selected);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
+  const handleSave = async() => {
     // Save name, email, and picture to some data store
+    const date = new Date().getTime();
+    const storageRef = ref(storage, `${user.displayName + date}`);
+
+    await uploadBytesResumable(storageRef, picture).then(() => {
+      getDownloadURL(storageRef).then(async (downloadURL) => {
+        try {
+          //Update profile
+          await updateProfile(user, {
+            photoURL: downloadURL,
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    });
   };
 
   const handlePictureChange = (event) => {
@@ -30,11 +52,11 @@ export function AccountDetails() {
     
   };
 
-  const user = auth.currentUser;
 
   return (
     <div className="account-details-container">
-      <h2>Currently Logged in as: </h2> {user?.name}
+      <h2>Currently Logged in as: {user?.email} </h2> 
+      <img src={user.photoURL} alt="" style={{width:"30%", borderRadius:"100px", height:"auto", display:"flex", justifyContent:"center"}}/>
       <div className="form-group">
         <label htmlFor="picture">Profile Picture:</label>
         <input
@@ -57,7 +79,7 @@ export function AccountDetails() {
         )}
       </div>
 
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="firstName">First Name:</label>
         <input
           className="textInput"
@@ -67,15 +89,15 @@ export function AccountDetails() {
           onChange={(edit) => setName(edit.target.value)}
           disabled={!editMode}
         />
-      </div>
+      </div> */}
 
       <div className="form-group">
-        <label htmlFor="lastName">Last Name:</label>
+        <label htmlFor="lastName">Display Name:</label>
         <input
           className="textInput"
           id="lastName"
           type="text"
-          value={name}
+          value={user.displayName}
           onChange={(edit) => setName(edit.target.value)}
           disabled={!editMode}
         />
@@ -104,7 +126,7 @@ export function AccountDetails() {
           className="textInput"
           id="email"
           type="email"
-          value={user?.email}
+          value={user.email}
           onChange={(edit) => setEmail(edit.target.value)}
           disabled={!editMode}
         />
