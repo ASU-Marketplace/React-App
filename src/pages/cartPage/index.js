@@ -93,20 +93,6 @@ export function Cart() {
             ))
             }
         </Grid>
-        <div className={classes.cardDetails}>
-                <Typography variant='h4'>
-                    Subtotal: $950{/*{cart.subtotal.formatted_with_symbol} */}
-                </Typography>
-                <div>
-                    <Button className={classes.emptyButton} size='large' type='button' variant='contained' color='secondary'
-                    onClick={deleteCart}>
-                        Empty Cart
-                    </Button>
-                    <Button className={classes.checkoutButton} size='large' type='button' variant='contained' color='primary'>
-                        Checkout
-                    </Button>
-                </div>
-        </div>
         </>
     );
 
@@ -115,8 +101,18 @@ export function Cart() {
     return (
             <Container>
                 <Typography className={classes.title} variant='h3'>
-                    Your Shopping Cart
+                    Saved Items
                 </Typography>
+
+                <Button className={classes.emptyButton} size='large' type='button' variant='contained' color='secondary'
+                    onClick={deleteCart}>
+                    Edit Items
+                </Button>
+                    {/* <Button className={classes.checkoutButton} size='large' type='button' variant='contained' color='primary'>
+                        Checkout
+                    </Button> */}
+                
+                
                 { /*!cart.line_items.length*/isEmpty ? <EmptyCart/> : <FilledCart/>}
             </Container>
     )
