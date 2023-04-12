@@ -34,7 +34,7 @@ export function AccountDetails() {
 
   return (
     <div className="account-details-container">
-      <h2>Currently Logged in as: </h2> {user?.name}
+      <h2>Currently Logged in as: </h2> {user?.email}
       <div className="form-group">
         <label htmlFor="picture">Profile Picture:</label>
         <input
@@ -104,7 +104,7 @@ export function AccountDetails() {
           className="textInput"
           id="email"
           type="email"
-          value={user?.email}
+          value={email}
           onChange={(edit) => setEmail(edit.target.value)}
           disabled={!editMode}
         />
