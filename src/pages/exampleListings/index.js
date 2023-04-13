@@ -12,6 +12,7 @@ import "./example.css"
     </div>
     <h2>Item condition: Mint</h2>
     <h2>Item category: Other</h2>
+    <h2>Campus available: Tempe</h2>
     <h2>Item description: </h2>
     <p>This is an item description of the Jansport Backpack. This item is Brand
     new and worth $50. Willing to haggle on price.</p>
