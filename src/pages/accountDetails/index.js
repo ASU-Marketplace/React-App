@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { auth } from "../../firebase";
+import { auth, db, storage } from "../../firebase";
+import { updateProfile, onAuthStateChanged } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useNavigate} from "react-router-dom";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export function AccountDetails() {
+  const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [picture, setPicture] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const options = ["Tempe", "Poly", "West", "Downtown"];
+  const [isErrorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const options = ["Tempe", "Poly", "West", "Downtown", "Online"];
+
+  let navigate = useNavigate(); 
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
 
   const handleEdit = () => {
     setEditMode(true);
@@ -19,22 +36,74 @@ export function AccountDetails() {
     console.log(selected);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
+  const handleSave = async() => {
     // Save name, email, and picture to some data store
-  };
-
-  const handlePictureChange = (event) => {
-    setPicture(event.target.files[0]);
-    setPreviewURL(URL.createObjectURL(event.target.files[0]));
+    const date = new Date().getTime();
+    const storageRef = ref(storage, `${user.displayName + date}`);
+    
+      await uploadBytesResumable(storageRef, picture).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
+            await updateProfile(user, {
+              displayName: name,
+              email: email,
+              photoURL: downloadURL,
+            });
+          } catch (err) {
+            console.log(err);
+            setErrorMessage("Information could not be saved, please try again!");
+          }
+        });
+      }).then(
+        setErrorMessage("Changes saved successfully!!")
+      );
+      setErrorVisible(true);
+      setOpen(true); 
+      setEditMode(false);
     
   };
 
-  const user = auth.currentUser;
+  const handlePictureChange = (event) => {
+    if (event.target.files[0] != user.photoURL){
+      setPicture(event.target.files[0]);
+      setPreviewURL(URL.createObjectURL(event.target.files[0]));
+    } else {
+      setPicture(user.photoURL);
+    }
+    
+    
+  };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
+    <>
     <div className="account-details-container">
-      <h2>Currently Logged in as: </h2> {user?.email}
+      <h2>Currently Logged in as: {user?.email} </h2> 
+      <img src={user.photoURL} alt="" style={{width:"30%", borderRadius:"100px", height:"auto", display:"flex", justifyContent:"center"}}/>
       <div className="form-group">
         <label htmlFor="picture">Profile Picture:</label>
         <input
@@ -45,6 +114,7 @@ export function AccountDetails() {
           onChange={handlePictureChange}
           disabled={!editMode}
         />
+        </div>
         {previewURL && (
           <div>
             <p>Preview:</p>
@@ -55,9 +125,9 @@ export function AccountDetails() {
             />
           </div>
         )}
-      </div>
+      
 
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="firstName">First Name:</label>
         <input
           className="textInput"
@@ -67,15 +137,15 @@ export function AccountDetails() {
           onChange={(edit) => setName(edit.target.value)}
           disabled={!editMode}
         />
-      </div>
+      </div> */}
 
       <div className="form-group">
-        <label htmlFor="lastName">Last Name:</label>
+        <label htmlFor="lastName">Display Name:</label>
         <input
           className="textInput"
           id="lastName"
           type="text"
-          value={name}
+          placeholder={user.displayName}
           onChange={(edit) => setName(edit.target.value)}
           disabled={!editMode}
         />
@@ -104,7 +174,7 @@ export function AccountDetails() {
           className="textInput"
           id="email"
           type="email"
-          value={email}
+          value={user.email}
           onChange={(edit) => setEmail(edit.target.value)}
           disabled={!editMode}
         />
@@ -122,5 +192,7 @@ export function AccountDetails() {
         )}
       </div>
     </div>
+    {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={3000} action={action}/>}
+    </>
   );
 }

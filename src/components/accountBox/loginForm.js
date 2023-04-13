@@ -12,8 +12,7 @@ import { AccountContext } from "./accountContext";
 import { useNavigate} from "react-router-dom";
 import {
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
+  onAuthStateChanged
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import Snackbar from '@mui/material/Snackbar';
@@ -22,7 +21,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export function LoginForm(props) {
   const { switchToSignup, switchToReset} = useContext(AccountContext);
-  const path = window.location.pathname
 
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
@@ -58,10 +56,6 @@ export function LoginForm(props) {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   const handleClick = () => {
     setOpen(true);
   };
@@ -88,7 +82,7 @@ export function LoginForm(props) {
   );
 
   return (
-    <div>
+    <>
       <BoxContainer>
         <FormContainer>
           <Input type="email" placeholder="Your ASU E-mail"
@@ -107,14 +101,12 @@ export function LoginForm(props) {
         <SubmitButton type="submit" onClick={login}>Sign In</SubmitButton>
         
         <Marginer direction="vertical" margin="1em" />
-        <MutedLink href="#">
-          Don't have an account?{" "}
-          <BoldLink href="#" onClick={switchToSignup}>
-            Sign up Here!
-          </BoldLink>
-        </MutedLink>
+        <span>
+          <MutedLink href="#">Don't have an account?{" "}</MutedLink>
+          <BoldLink href="#" onClick={switchToSignup}>Sign up Here!</BoldLink>
+          </span>  
       </BoxContainer>
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
-    </div>
+    </>
   );
 }
