@@ -40,15 +40,17 @@
   margin-bottom: 20px;
 }
 
-.example-container .button-container {
+.example-container .btn-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .example-container button {
   font-size: 20px;
   padding: 10px 20px;
   margin-right: 20px;
+  margin-bottom: 20px; /* add margin bottom */
   color: white;
   background-color: maroon;
   border: none;
@@ -59,4 +61,30 @@
 
 .example-container button:hover {
   background-color: gold;
+}
+
+.example-container .button-container button:first-child {
+  margin-right: 20px;
+}
+
+.example-container .button-container button:last-child {
+  margin-left: 20px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.home-button {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin: 0 10px;
+  margin-top: 20px; /* add top margin */
+  align-self: center;
 }

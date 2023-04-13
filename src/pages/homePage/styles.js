@@ -10,4 +10,20 @@ export default makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  link: {
+    textDecoration: 'red',
+    '&:hover': {
+      textDecoration: 'overline',
+    },
+    '&:visited': {
+      color: 'purple',
+    },
+  },
+  gridBox: {
+    '&:hover': {
+      transform: 'translateY(-5px)',
+      boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.3)',
+    },
+    transition: 'all 0.3s ease-in-out',
+  },
 }));
