@@ -9,43 +9,36 @@
     flex-direction: column;
     align-items: center;
   }
-  
-  .example-container h1 {
+   .example-container h1 {
     text-align: center;
     font-size: 36px;
     margin-bottom: 20px;
   }
-  
-  .example-container .image-container {
+   .example-container .image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
   }
-  
-  .example-container img {
+   .example-container img {
     width: 30%;
     display: block;
     margin: 0 auto;
   }
-  
-  .example-container h2 {
+   .example-container h2 {
     font-size: 24px;
     margin-bottom: 10px;
   }
-  
-  .example-container p {
+   .example-container p {
     text-align: center;
     font-size: 18px;
     margin-bottom: 20px;
   }
-  
-  .example-container .button-container {
+   .example-container .button-container {
     display: flex;
     justify-content: center;
   }
-  
-  .example-container button {
+   .example-container button {
     font-size: 20px;
     padding: 10px 20px;
     margin-right: 20px;
@@ -56,7 +49,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  .example-container button:hover {
+   .example-container button:hover {
     background-color: gold;
   }
+  .example-container .btn-container:last-child {
+    margin-top: 20px;
+  }
+ 
