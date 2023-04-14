@@ -53,7 +53,7 @@ input {
 }
 
 .btn-edit {
-  background-color: #4CAF50;
+  background-color: #8C1D40;
   border: none;
   color: white;
   text-align: center;
@@ -69,7 +69,7 @@ input {
 }
 
 .btn-save {
-  background-color: #4CAF50;
+  background-color: #8C1D40;
   border: none;
   color: white;
   text-align: center;
@@ -85,5 +85,5 @@ input {
 }
 
 button:hover {
-  background-color: #3e8e41;
+  background-color: #FFC627;
 }
