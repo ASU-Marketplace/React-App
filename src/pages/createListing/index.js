@@ -9,7 +9,6 @@ export function ProductListing(){
     const [editMode, setEditMode] = useState(null);
     const category = ["Apparel", "Technology", "Decor", "Other"];
     const condition = ["Poor", "Less than average", "Average", "Above average", "Mint"];
-    const campus = ["Tempe", "Polytechnic", "West", "Downtown"]
     
     
     const handleEdit = () => {
@@ -27,11 +26,9 @@ export function ProductListing(){
 
     const [selectedCondition, setSelectedCondition] = useState(condition[0]);
     const [selectedCategory, setSelectedCategory] = useState(category[0]);
-    const [selectedCampus, setSelectedCampus] = useState(campus[0]);
     const submit = () => {
         console.log("Selected Condition: " + selectedCondition);
         console.log("Selected Category: " + selectedCategory);
-        console.log("Selected Campus: " + selectedCampus)
     };
 
     return (
@@ -95,24 +92,6 @@ export function ProductListing(){
                             {value}
                         </option>
                     ))}
-                </select>
-            </div>
-
-            <div className = "form-group">
-                <label htmlFor="campus">Campus Selection:</label>
-                <select
-                className="campusSelect"
-                id="campus"
-                value={selectedCampus}
-                disabled={!editMode}
-                onChange={(edit) => setSelectedCampus(edit.target.value)}>
-
-{campus.map((value) => (
-                        <option value={value} key={value}>
-                            {value}
-                        </option>
-                    ))}
-
                 </select>
             </div>
 

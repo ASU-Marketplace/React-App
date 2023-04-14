@@ -36,7 +36,7 @@ input {
   }
 }
 
-.categorySelect, .conditionSelect, .campusSelect{
+.categorySelect, .conditionSelect {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
