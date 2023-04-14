@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./Example.css"
+import "./example.css"
 
  export function ExampleListings() {
   //this page is just an example of what a listing would look like

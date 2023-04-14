@@ -107,10 +107,14 @@ export function AccountBox(props) {
   };
 
   const switchToSignup = () => {
-    playExpandingAnimation();
-    setTimeout(() => {
-      setActive("signup");
-    }, 400);
+    try{
+      playExpandingAnimation();
+      setTimeout(() => {
+        setActive("signup");
+      }, 400);
+    } catch (err){
+      console.log(err);
+    };
   };
   
   const switchToSignin = () => {
