@@ -11,7 +11,7 @@ import { ChatHome } from "./pages/chatPage/ChatHome";
 import { HomeChat } from "./pages/chatPage/HomeChat";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
-import { ExampleListings } from "./pages/ExampleListings";
+import { ExampleListings } from "./pages/exampleListings";
 
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
     <Route path="/createListing" element={<ProductListing/>}/>
     <Route path="/chat" element={<HomeChat/>}/>
     <Route path="/listings" element={<UserListing/>}/>
-    <Route path="/ExampleListings" element={<ExampleListings/>}/>
+    <Route path="/exampleListings" element={<ExampleListings/>}/>
   </Routes>
 </div>
 </>

@@ -36,6 +36,7 @@ export function ProductListing(){
 
     return (
         <div className="create-listing-container">
+            <h2>List a Product:</h2>
             <div className="form-group">
                 <label htmlFor="picture">Item Picture:</label>
                 <input
@@ -46,6 +47,7 @@ export function ProductListing(){
                     onChange={handlePictureChange}
                     disabled={!editMode}
                 />
+                </div>
                 {previewURL && (
                     <div>
                         <p>Preview:</p>
@@ -56,7 +58,7 @@ export function ProductListing(){
                         />
                     </div>
                 )}
-            </div>
+           
 
             <div className="form-group">
                 <label htmlFor="itemName">Item Name:</label>
@@ -136,7 +138,7 @@ export function ProductListing(){
             <div className="form-group">
                 {editMode ? (
                     <button className="btn-save" onClick={handleSave}>
-                        Save
+                        Post!
                     </button>
                 ) : (
                     <button className="btn-edit" onClick={handleEdit}>

@@ -125,19 +125,6 @@ export function AccountDetails() {
             />
           </div>
         )}
-      
-
-      {/* <div className="form-group">
-        <label htmlFor="firstName">First Name:</label>
-        <input
-          className="textInput"
-          id="firstName"
-          type="text"
-          value={name}
-          onChange={(edit) => setName(edit.target.value)}
-          disabled={!editMode}
-        />
-      </div> */}
 
       <div className="form-group">
         <label htmlFor="lastName">Display Name:</label>
