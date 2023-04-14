@@ -1,19 +1,52 @@
-const mysql = require('promise-mysql');
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import useStyles from "../components/products/styles";
+import React from "react";
+import { doc, getDoc, setDoc, deleteField } from 'firebase/firestore';
 
-// createUnixSocketPool initializes a Unix socket connection pool for
-// a Cloud SQL instance of MySQL.
-const createUnixSocketPool = async config => {
-  // Note: Saving credentials in environment variables is convenient, but not
-  // secure - consider a more secure solution such as
-  // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe.
-  return mysql.createPool({
-    user: process.env.DB_USER, // e.g. 'my-db-user'
-    password: process.env.DB_PASS, // e.g. 'my-db-password'
-    database: process.env.DB_NAME, // e.g. 'my-database'
-    socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    // Specify additional properties here.
-    ...config,
-  });
+const firebaseConfig = {
+
+  apiKey: "AIzaSyAyEP-kjqYm84_oixqlwXJXChTyNa0U4m4",
+
+  authDomain: "asu-marketplace-app.firebaseapp.com",
+
+  projectId: "asu-marketplace-app",
+
+  storageBucket: "asu-marketplace-app.appspot.com",
+
+  messagingSenderId: "29170011023",
+
+  appId: "1:29170011023:web:2385558d6b4112fc1bd9fa"
+
 };
-module.exports = createUnixSocketPool;
+
+
+// Use this to initialize the firebase App
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+// Use these for db & auth
+const db = firebaseApp.firestore();
+const auth = firebase.auth();
+
+export { auth, db };
+
+export const addToCartDB = async (collection, value) => {
+    db.collection(collection).add({
+        "Current Cart": value
+      })
+      .catch(function (error) {
+        alert("Error writing Value: " + error);
+      }); 
+};
+
+export const getValue = async (collection, key) => {
+  const docRef = doc(db, collection, key);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    alert("Document Data:", docSnap.data);
+  } else {
+    alert("No Such Document!");
+  }
+}

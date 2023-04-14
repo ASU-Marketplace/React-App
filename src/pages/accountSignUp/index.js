@@ -4,7 +4,8 @@ import { LoginForm } from "../../components/accountBox/loginForm";
 import { motion } from "framer-motion";
 import { AccountContext } from "../../components/accountBox/accountContext";
 import { SignupForm } from "../../components/accountBox/signupForm";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ResetPasswordForm } from "../../components/accountBox/resetPasswordForm";
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const BoxContainer = styled.div`
   width: 280px;
@@ -106,12 +107,15 @@ export function AccountBox(props) {
   };
 
   const switchToSignup = () => {
-    playExpandingAnimation();
-    setTimeout(() => {
-      setActive("signup");
-    }, 400);
+    try{
+      playExpandingAnimation();
+      setTimeout(() => {
+        setActive("signup");
+      }, 400);
+    } catch (err){
+      console.log(err);
+    };
   };
-
   
   const switchToSignin = () => {
     playExpandingAnimation();
@@ -120,7 +124,16 @@ export function AccountBox(props) {
     }, 400);
   };
 
-  const contextValue = { switchToSignup, switchToSignin };
+  const switchToReset = () => {
+    playExpandingAnimation();
+    setTimeout(() => {
+      setActive("reset");
+    }, 400);
+  };
+  
+
+  const contextValue = { switchToSignup, switchToSignin, switchToReset };
+  //console.log(active);
 
   return (
     <AccountContext.Provider value={contextValue}>
@@ -146,10 +159,18 @@ export function AccountBox(props) {
               <SmallText>Sign up to continue!</SmallText>
             </HeaderContainer>
           )}
+           {active === "reset" && (
+            <HeaderContainer>
+              <HeaderText>Reset</HeaderText>
+              <HeaderText>Password</HeaderText>
+              <SmallText>Enter your user E-mail!</SmallText>
+            </HeaderContainer>
+          )}     
         </TopContainer>
         <InnerContainer>
           {active === "signin" && <LoginForm />}
           {active === "signup" && <SignupForm />}
+          {active === "reset" && <ResetPasswordForm />}
         </InnerContainer>
       </BoxContainer>
     </AccountContext.Provider>

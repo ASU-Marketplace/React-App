@@ -11,25 +11,25 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { useNavigate} from "react-router-dom";
 import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged
+  sendPasswordResetEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-export function LoginForm(props) {
-  const { switchToSignup, switchToReset} = useContext(AccountContext);
-
+export function ResetPasswordForm(props) {
+  const { switchToSignin, switchToSignup } = useContext(AccountContext);
+  
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
-    let path = `/`; 
+    let path = `/accountSignUp`; 
     navigate(path);
   }
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
+  const [confirmedEmail, setConfirmedEmail] = useState("");
 
   const [user, setUser] = useState({});
   const [isErrorVisible, setErrorVisible] = useState(false);
@@ -40,19 +40,25 @@ export function LoginForm(props) {
     setUser(currentUser);
   });
 
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      ).then(routeChange);
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
-      setErrorVisible(true);
+  const resetPassword = async () => {
+    if (resetEmail === confirmedEmail) {
+      try {
+        const user = await sendPasswordResetEmail(
+          auth,
+          resetEmail,
+        ).then(routeChange);
+        console.log(user);
+      } catch (error) {
+        console.log(error.message);
+        setErrorVisible(true);
+        setOpen(true);
+        setErrorMessage(error.message);
+      }
+    } else {
       setOpen(true);
-      setErrorMessage(error.message);
+      setErrorVisible(true);
+      setErrorMessage("E-mails do not match!");
+      return;
     }
   };
 
@@ -64,7 +70,6 @@ export function LoginForm(props) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
@@ -74,8 +79,7 @@ export function LoginForm(props) {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handleClose}
-      >
+        onClick={handleClose}>
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -87,24 +91,26 @@ export function LoginForm(props) {
         <FormContainer>
           <Input type="email" placeholder="Your ASU E-mail"
             onChange={(event) => {
-              setLoginEmail(event.target.value);
+              setResetEmail(event.target.value);
             }} />
-          <Input type="password" placeholder="Password"  
+          <Input type="email" placeholder="Confirm E-mail"  
             onChange={(event) => {
-              setLoginPassword(event.target.value);
+              setConfirmedEmail(event.target.value);
             }} />
         </FormContainer>
         <Marginer direction="vertical" margin={30} />
-        <MutedLink href="#" onClick={switchToReset}>Forget your password? </MutedLink>
-        <Marginer direction="vertical" margin="1.6em" />
 
-        <SubmitButton type="submit" onClick={login}>Sign In</SubmitButton>
+        <SubmitButton type="submit" onClick={resetPassword}>Reset Password</SubmitButton>
         
         <Marginer direction="vertical" margin="1em" />
         <span>
           <MutedLink href="#">Don't have an account?{" "}</MutedLink>
           <BoldLink href="#" onClick={switchToSignup}>Sign up Here!</BoldLink>
-          </span>  
+        </span>
+        <span>
+          <MutedLink href="#">Got your password?{" "}</MutedLink>
+          <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
+        </span> 
       </BoxContainer>
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
     </>
