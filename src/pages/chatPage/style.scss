@@ -134,8 +134,8 @@
 
           img {
             background-color: white;
-            height: 30px;
-            width: 30px;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
             object-fit: cover;
             margin: 5px 5px 5px 5px;
@@ -212,6 +212,16 @@
         justify-content: space-between;
         padding: 10px;
         color: black;
+        
+        img {
+          background-color: white;
+          height: 60px;
+          width: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin: 5px 5px 5px 5px;
+          margin-left: 15px;
+        }
       }
 
       .chatIcons {
@@ -288,6 +298,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 130%;
        
 
         input {
@@ -295,8 +306,7 @@
           border: none;
           outline: none;
           color: black;
-          font-size: 18px;
-          display: inline-block;
+          font-size: 14px;
 
           &::placeholder {
             color: lightgray;
@@ -307,19 +317,20 @@
           display: flex;
           align-items: center;
           gap: 10px;
-          display: inline;
+          width: 500px;
 
           img {
-            height: 24px;
+            height: 20px;
             cursor: pointer;
-            margin-left: 20px;
           }
 
           button {
             border: none;
             padding: 10px 15px;
-            color: black;
-            background-color: white;
+            color: white;
+            background-color: maroon;
+            font-size: 15px;
+            font-style: bold;
             cursor: pointer;
           }
         }

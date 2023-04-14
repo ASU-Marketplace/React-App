@@ -7,6 +7,18 @@ import './styles.css';
 import Modal from "../accountReport";
 import { auth } from "../../firebase";
 import {signOut} from "firebase/auth";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    setDoc,
+    doc,
+    updateDoc,
+    serverTimestamp,
+    getDoc,
+  } from "firebase/firestore";
+  import { db } from "../../firebase";
 
 function NavBar(){
     const user = null; 
@@ -24,10 +36,36 @@ function NavBar(){
         }
     });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async (event) => {
+        console.log("search term:" + searchTerm);
         // Perform search using the value in searchTerm
+        // const q = query(
+        //     collection(db, "products"),
+        //     where("productName", "==", searchTerm)
+        //   );
+          
+      
+        //   try {
+        //     const querySnapshot = await getDocs(q);
+        //     querySnapshot.forEach((doc) => {
+        //       setUser(doc.data());
+        //     });
+        //   } catch (err) {
+        //     //setErr(true);
+        //     console.log(err)
+        //   }
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchTerm(e.target.value);
+        
+
+        // if (searchTerm.length > 0) {
+        //     countries.filter((country) => {
+        //     return country.name.match(searchTerm);
+        // });
+    }
 
     const logout = async () => {
         await signOut(auth);
@@ -50,7 +88,7 @@ function NavBar(){
                 type="text" 
                 placeholder="Search" 
                 value={searchTerm} 
-                onChange={(event) => setSearchTerm(event.target.value)} 
+                onChange={(event) => handleSearch(event)} 
                 className="search-input"
             />
             <button type="submit" className="search-button">
