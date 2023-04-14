@@ -14,7 +14,7 @@ export default makeStyles((theme) => ({
     textDecoration: 'red',
     '&:hover': {
       textDecoration: 'overline',
-      color: "maroon"
+      color: 'maroon'
     },
     '&:visited': {
       color: 'purple',
