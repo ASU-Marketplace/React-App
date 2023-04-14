@@ -18,8 +18,8 @@ const Products = ({onAddToCart}) => {
       <div className={classes.toolbar} />
       <Grid container justify-content ='center' spacing={4}>
         {products.map((product) => (
-          <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-            <a href={product.url}>
+          <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}className={classes.gridBox}>
+            <a href={product.url} className={classes.link}>
               <Product product={product} onAddToCart={onAddToCart} />
             </a>
           </Grid>
