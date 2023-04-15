@@ -54,17 +54,7 @@ export function Cart() {
     //]
 
     const fetchCart = async () => {
-        let test = await getDocs(collection(db, user.email + " cart")); /*
-            .then(async (querySnapshot)=>{               
-                const newData = querySnapshot.docs
-                .map(doc => doc.data());
-                setCart(newData);                
-                //console.log(cart, newData);
-                newData.forEach(product => {
-                 // products.push(product);
-                  console.log("adding product");
-                });
-            }) */
+        let test = await getDocs(collection(db, user.email + " cart")); 
             setCart([]);
             test.forEach((doc) => {
                 console.log(doc.data());
@@ -81,11 +71,7 @@ export function Cart() {
     const FilledCart = () => (
         <>
         <Grid container spacing={4}>
-            {/*cart.line_items.map((item) => (
-                <Grid item xs={12} sm={4} key={item.id}>
-                    <div>{item.name}</div>
-                </Grid>
-            ))*/}
+            {}
             {cart.map((product) => (
                 <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
                     <Product product={product}/>
