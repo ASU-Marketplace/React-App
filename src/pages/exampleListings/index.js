@@ -7,6 +7,7 @@ import "./example.css"
   return (
     <div className='example-container'>
     <h1>Item name: Jansport backpack</h1>
+    <h3>Listed by:</h3>
     <div>
       <img src="https://m.media-amazon.com/images/I/81dkWDxetjL._AC_UY1000_.jpg" alt="backpack" />
     </div>
