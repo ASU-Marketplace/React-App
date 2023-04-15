@@ -1,63 +1,49 @@
 import React, { useState } from "react";
 import "./styles.css"
+import { db, auth } from "../../firebase";
+import { onAuthStateChanged } from 'firebase/auth';
+import {
+    addDoc,
+    collection,
+    onSnapshot,
+    orderBy,
+    query,
+    getDocs,
+} from "firebase/firestore";
 
 export function ProductListing(){
     const [name, setName] = useState("");
     const [description, setDesc] = useState("");
-    const [picture, setPicture] = useState(null);
-    const [previewURL, setPreviewURL] = useState(null);
-    const [editMode, setEditMode] = useState(null);
-    const category = ["Apparel", "Technology", "Decor", "Other"];
-    const condition = ["Poor", "Less than average", "Average", "Above average", "Mint"];
-    const campus = ["Tempe", "Polytechnic", "West", "Downtown"]
-    
-    
-    const handleEdit = () => {
-        setEditMode(true);
-    }
+    const [price, setPrice] = useState("");
+    const [imageURL, setImageURL] = useState("");
+    const [user, setUser] = useState([]);
 
-    const handleSave = () => {
-        setEditMode(false);
-    }
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+        console.log("set " + user.email + " to " + currentUser.email);
+    })
 
-    const handlePictureChange = (event) => {
-        setPicture(event.target.files[0]);
-        setPreviewURL(URL.createObjectURL(event.target.files[0]));
-    };
-
-    const [selectedCondition, setSelectedCondition] = useState(condition[0]);
-    const [selectedCategory, setSelectedCategory] = useState(category[0]);
-    const [selectedCampus, setSelectedCampus] = useState(campus[0]);
-    const submit = () => {
-        console.log("Selected Condition: " + selectedCondition);
-        console.log("Selected Category: " + selectedCategory);
-        console.log("Selected Campus: " + selectedCampus)
-    };
+    const addToListingsDB = async (e) => {
+        e.preventDefault();  
+       
+        try {
+            const docRef = await addDoc(collection(db, "listings"), {
+              product : {
+                "description": description,
+                "image": imageURL,
+                "name": name,
+                "price": price,
+                "poster": user.email
+              },
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+      }
 
     return (
         <div className="create-listing-container">
-            <div className="form-group">
-                <label htmlFor="picture">Item Picture:</label>
-                <input
-                    className="textInput"
-                    id="picture"
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePictureChange}
-                    disabled={!editMode}
-                />
-                {previewURL && (
-                    <div>
-                        <p>Preview:</p>
-                        <img
-                            src={URL.createObjectURL(picture)}
-                            width="50"
-                            height="50"
-                        />
-                    </div>
-                )}
-            </div>
-
             <div className="form-group">
                 <label htmlFor="itemName">Item Name:</label>
                 <input
@@ -66,7 +52,7 @@ export function ProductListing(){
                     type="text"
                     value={name}
                     onChange={(edit) => setName(edit.target.value)}
-                    disabled={!editMode}
+                    disabled={user == null}
                 />
             </div>
 
@@ -78,71 +64,39 @@ export function ProductListing(){
                     type="text"
                     value={description}
                     onChange={(edit) => setDesc(edit.target.value)}
+                    disabled={user == null}
                 />
             </div>
 
             <div className="form-group">
-                <label htmlFor="category">Item Category:</label>
-                <select
-                    className="categorySelect"
-                    id="category"
-                    value={selectedCategory}
-                    disabled={!editMode}
-                    onChange={(edit) => setSelectedCategory(edit.target.value)}
-                >
-                    {category.map((value) => (
-                        <option value={value} key={value}>
-                            {value}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className = "form-group">
-                <label htmlFor="campus">Campus Selection:</label>
-                <select
-                className="campusSelect"
-                id="campus"
-                value={selectedCampus}
-                disabled={!editMode}
-                onChange={(edit) => setSelectedCampus(edit.target.value)}>
-
-{campus.map((value) => (
-                        <option value={value} key={value}>
-                            {value}
-                        </option>
-                    ))}
-
-                </select>
+                <label htmlFor="price">Item Price: </label>
+                <input
+                    className="textInput"
+                    id="price"
+                    type="text"
+                    value={price}
+                    onChange={(edit) => setPrice(edit.target.value)}
+                    disabled={user == null}
+                />
             </div>
 
             <div className="form-group">
-                <label htmlFor="condition">Condition</label>
-                <select
-                    className="conditionSelect"
-                    id="condition"
-                    value={selectedCondition}
-                    disabled={!editMode}
-                    onChange={(edit) => setSelectedCondition(edit.target.value)}
-                >
-                    {condition.map((value) => (
-                        <option value={value} key={value}>
-                            {value}
-                        </option>
-                    ))}
-                </select>
+                <label htmlFor="imageURL">Image Link: </label>
+                <input
+                    className="textInput"
+                    id="imageURL"
+                    type="text"
+                    value={imageURL}
+                    onChange={(edit) => setImageURL(edit.target.value)}
+                    disabled={user == null}
+                />
             </div>
 
             <div className="form-group">
-                {editMode ? (
-                    <button className="btn-save" onClick={handleSave}>
+                {
+                    <button className="btn-save" onClick={addToListingsDB} disabled={description == "" || imageURL == "" || name == "" || price == ""}>
                         Save
-                    </button>
-                ) : (
-                    <button className="btn-edit" onClick={handleEdit}>
-                        Edit
-                    </button>
-                )}
+                    </button>}
             </div>    
         </div>
         
