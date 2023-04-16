@@ -39,26 +39,20 @@ function NavBar(){
     const handleSubmit = async (event) => {
         console.log("search term:" + searchTerm);
         // Perform search using the value in searchTerm
-        // const q = query(
-        //     collection(db, "products"),
-        //     where("productName", "==", searchTerm)
-        //   );
-          
-      
-        //   try {
-        //     const querySnapshot = await getDocs(q);
-        //     querySnapshot.forEach((doc) => {
-        //       setUser(doc.data());
-        //     });
-        //   } catch (err) {
-        //     //setErr(true);
-        //     console.log(err)
-        //   }
+        const q = query(
+            collection(db, "listings"),
+            where("product.name", "==", searchTerm)
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+          })
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.value);
+        console.log(searchTerm);
         
 
         // if (searchTerm.length > 0) {
@@ -83,7 +77,7 @@ function NavBar(){
         </Link>
 
     <ul>
-        <form onSubmit={handleSubmit} className="search-form">
+        {/* <form onSubmit={handleSubmit} className="search-form">
             <input 
                 type="text" 
                 placeholder="Search" 
@@ -94,7 +88,7 @@ function NavBar(){
             <button type="submit" className="search-button">
                 <FontAwesomeIcon className='search-icon' icon={faSearch} />
             </button>
-        </form>
+        </form> */}
 
         {isLoggedIn ? 
         <>
