@@ -62,10 +62,9 @@ export function UserListing(){
     );
 
     return (<>
-    <h1>My Listings</h1>
     <Container>
-                <Typography className={classes.title} variant='h3'>
-                    My Items
+                <Typography className={classes.title} variant='h2'>
+                    My Listings
                 </Typography>
 
                 {/* <Button className={classes.emptyButton} size='large' type='button' variant='contained' color='secondary'

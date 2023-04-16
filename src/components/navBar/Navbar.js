@@ -65,16 +65,13 @@ function NavBar(){
         await signOut(auth);
     };
 
-    //Report an Account Modal
-    const [modalOpen, setModalOpen] = useState(false);
-
     return <nav className='nav'>
         
-        <Link 
-        to='/' className="siteTitle">
+        <Link to='/' className="siteTitle no-hover">
             <img src={logo} className="logo" alt="img"/>
             ASU Marketplace
         </Link>
+
 
     <ul>
         {/* <form onSubmit={handleSubmit} className="search-form">
@@ -136,15 +133,6 @@ function NavBar(){
             <div className={`dropdown-menu ${isDropdownVisible ? "is-visible" : ""}`}>
             <Link to="/listings" className="--">
                 <div className="dropdown-item">My Listings</div>
-            </Link>
-
-            <Link to="" className="--"
-                // onClick={() => {
-                // setModalOpen(true);
-                // }}
-                >
-                    {/* {modalOpen && <Modal setOpenModal={setModalOpen} />} */}
-                <div className="dropdown-item">Report an Account</div>
             </Link>
 
             <Link to="/accountSignUp" onClick={logout}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import "./example.css"
 import { doc, getDoc, getDocs, query, where, collection } from "firebase/firestore";
@@ -6,6 +6,11 @@ import { db, auth } from "../../firebase";
 import { onAuthStateChanged } from 'firebase/auth';
 import Product from '../../components/products/index';
 import { useState, useEffect,useContext } from 'react';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import {Typography} from '@material-ui/core';
 
  export function ExampleListings() {
   const collectionName = "listings";
@@ -66,6 +71,18 @@ import { useState, useEffect,useContext } from 'react';
 
 
   //this page is just an example of what a listing would look like
+  const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1750);
+    };  
+
+    const handleClose = () => {
+        setOpen(false);
+    };
   return (
     <div className='example-container'>
     <h1>Item name: {productName} </h1>
@@ -83,7 +100,12 @@ import { useState, useEffect,useContext } from 'react';
       <Link to="/chat">
         <button>Chat with seller</button>
       </Link>
-      <Link to="/chat">
+      <Link 
+      aria-label="Report Listing"
+      onClick={(event) => {
+        event.preventDefault();
+        handleClickOpen();
+      }}>
         <button>Report listing</button>
       </Link>
       </div>
@@ -92,6 +114,14 @@ import { useState, useEffect,useContext } from 'react';
           <button className = "home-button">Back to home</button>
         </Link>
         </div>
+
+        <Dialog open={open} onClose={handleClose}>
+            <DialogContent>
+                <Typography>Thanks! This Listing has been Reported</Typography>
+            </DialogContent>
+            <DialogActions>
+            </DialogActions>
+          </Dialog>
     </div>
   );
 }

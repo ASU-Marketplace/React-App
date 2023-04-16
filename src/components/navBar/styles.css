@@ -14,7 +14,7 @@
     }
         
     .nav:hover .dropdown-menu {
-        margin-top: 3em;
+        margin-top: 2.5em;
         display: block;
     }
 
