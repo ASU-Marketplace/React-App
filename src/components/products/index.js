@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton} from '@material-ui/core';
-import { FavoriteBorderOutlined, NewReleasesRounded, OutlinedFlag} from '@material-ui/icons'
+import { FavoriteBorderOutlined, OutlinedFlag} from '@material-ui/icons'
 import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 
@@ -12,9 +11,6 @@ import { db, auth } from "../../firebase";
 import {
     addDoc,
     collection,
-    onSnapshot,
-    orderBy,
-    query,
     getDocs,
 } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
@@ -105,20 +101,23 @@ const Product = ({ product }) => {
 
             <CardActions disableSpacing className={classes.cardActions}>
                 <IconButton
-                  aria-label="Report Listing"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    handleClickOpen();
-                  }}
+                    aria-label="Report Listing"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        handleClickOpen();
+                    }}
                 >
-                  <OutlinedFlag/>
+                    <OutlinedFlag/>
                 </IconButton>
 
                 <IconButton
                     aria-label="Save Listing"
-                    onClick={addToCartDB_TEST}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        addToCartDB_TEST();
+                    }}
                 >
-                  <FavoriteBorderOutlined />
+                    <FavoriteBorderOutlined />
                 </IconButton>
             </CardActions>
 

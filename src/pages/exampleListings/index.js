@@ -4,10 +4,8 @@ import "./example.css"
 import { doc, getDoc, getDocs, query, where, collection } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import { onAuthStateChanged } from 'firebase/auth';
-import Product from '../../components/products/index';
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import {Typography} from '@material-ui/core';
