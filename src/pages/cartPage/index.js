@@ -34,13 +34,14 @@ export function Cart() {
                 setCart(querySnapshot.docs.map(doc => doc.data().product));
             });
             let tempTotal = 0;
-            cart.forEach(element => {
-                console.log(element.product);
-                tempTotal += Number(element.price.replace(/[^0-9.-]+/g,""));
-                console.log(element.price);
+            await getDocs(collection(db, user.email + " cart")).then(querySnapshot => {
+                querySnapshot.docs.map(doc => doc.data().product.price).forEach(price => {
+                    tempTotal += Number(price.replace(/[^0-9.-]+/g,""));
+                });
             });
             setTotal(tempTotal);
         }
+        console.log("getting here");
         test();
       }, [user])
 
@@ -51,6 +52,7 @@ export function Cart() {
             deleteDoc(doc.ref);
         });
         setCart([]);
+        setTotal(0);
     }
 
     //const products = [
