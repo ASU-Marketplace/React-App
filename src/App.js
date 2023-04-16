@@ -10,7 +10,7 @@ import { UserListing } from './pages/userListings'
 import { HomeChat } from "./pages/chatPage/HomeChat";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
-import { ExampleListings } from "./pages/ExampleListings";
+import { ExampleListings } from "./pages/exampleListings";
 
 
 function App() {
