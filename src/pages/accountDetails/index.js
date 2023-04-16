@@ -102,7 +102,7 @@ export function AccountDetails() {
   return (
     <>
     <div className="account-details-container">
-      <h2>Currently Logged in as: {user?.email} </h2> 
+      <h2>Welcome Back {user?.displayName}!</h2> 
       <img src={user.photoURL} alt="" style={{width:"30%", borderRadius:"100px", height:"auto", display:"flex", justifyContent:"center"}}/>
       <div className="form-group">
         <label htmlFor="picture">Profile Picture:</label>

@@ -1,4 +1,4 @@
-import React,  {useState, useEffect, useContext} from 'react';
+import React,  {useState, useEffect} from 'react';
 import { Grid } from '@material-ui/core';
 import Product from '../../components/products/index';
 import useStyles from './styles'
@@ -7,8 +7,7 @@ import { db, auth } from "../../firebase";
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { faHeart, faSearch, faUser, faPlus, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { faSearch} from '@fortawesome/free-solid-svg-icons';
 
 
 const Products = ({onAddToCart}) => {
@@ -95,18 +94,20 @@ const handleSearch = async (e) => {
 
   return (
     <>
-    <form onSubmit={handleSubmit} className="search-form">
-            <input 
-                type="text" 
-                placeholder="Search" 
-                value={searchTerm} 
-                onChange={(event) => handleSearch(event)} 
-                className="search-input"
-            />
-            <button className="search-button">
-                <FontAwesomeIcon className='search-icon' icon={faSearch} />
-            </button>
-        </form>
+      <form onSubmit={handleSubmit} className={classes.searchForm}>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(event) => handleSearch(event)}
+          className={classes.searchInput}
+        />
+        <button className={classes.searchButton}>
+          <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} />
+        </button>
+      </form>
+
+
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <Grid container justify-content ='center' spacing={4}>

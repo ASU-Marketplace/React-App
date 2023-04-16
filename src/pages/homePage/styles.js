@@ -27,4 +27,32 @@ export default makeStyles((theme) => ({
     },
     transition: 'all 0.3s ease-in-out',
   },
+  searchForm: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50px',
+    background: '#fff',
+    padding: '5px 10px',
+    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.3)',
+  },
+  searchInput: {
+    flex: '1',
+    border: 'none',
+    padding: '8px',
+    borderRadius: '50px 0 0 50px',
+    outline: 'none',
+    fontSize: '1rem',
+  },
+  searchButton: {
+    background: 'transparent',
+    border: 'none',
+    padding: '8px 10px',
+    borderRadius: '0 50px 50px 0',
+    cursor: 'pointer',
+  },
+  searchIcon: {
+    color: '#555',
+    fontSize: '1.2rem',
+  },
 }));

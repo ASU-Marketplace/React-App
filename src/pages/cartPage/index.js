@@ -86,11 +86,11 @@ export function Cart() {
                 <div>
                     <Button className={classes.emptyButton} size='large' type='button' variant='contained' color='secondary'
                     onClick={deleteCart}>
-                        Empty Cart
+                        Empty List
                     </Button>
-                    <Button className={classes.checkoutButton} size='large' type='button' variant='contained' color='primary'>
+                    {/* <Button className={classes.checkoutButton} size='large' type='button' variant='contained' color='primary'>
                         Checkout
-                    </Button>
+                    </Button> */}
                 </div>
         </div>
         </>
@@ -100,7 +100,7 @@ export function Cart() {
 
     return (
             <Container>
-                <Typography className={classes.title} variant='h3'>
+                <Typography className={classes.title} variant='h2'>
                     Saved Items
                 </Typography>
 
