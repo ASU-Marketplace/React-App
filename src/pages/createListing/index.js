@@ -85,9 +85,9 @@ export function ProductListing(){
                      updateProducts();     
                      //updateProducts();             
                     } catch (e) {
-                        setOpen(true);
-                        setErrorVisible(true);
-                        setErrorMessage(e.message);
+                        //setOpen(true);
+                        //setErrorVisible(true);
+                        //setErrorMessage(e.message);
                         console.error("Error adding document: ", e);
                     }
                     //refreshPage();
