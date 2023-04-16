@@ -12,11 +12,17 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { AuthContext } from "../../context/AuthContext";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ChatSearch = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
+  const [isErrorVisible, setErrorVisible] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { currentUser } = useContext(AuthContext);
 
@@ -31,8 +37,15 @@ const ChatSearch = () => {
       querySnapshot.forEach((doc) => {
         setUser(doc.data());
       });
+      console.log(user);
+      if (user == null){
+        setErrorMessage("User not found!");
+        setErrorVisible(true);
+        setOpen(true);
+      }
     } catch (err) {
       setErr(true);
+      console.log(err)
     }
   };
 
@@ -77,7 +90,32 @@ const ChatSearch = () => {
     setUser(null);
     setUsername("")
   };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
   return (
+    <>
     <div className="search">
       <div className="searchForm">
         <input
@@ -97,7 +135,9 @@ const ChatSearch = () => {
           </div>
         </div>
       )}
-    </div>
+      </div>
+       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
+    </>
   );
 };
 

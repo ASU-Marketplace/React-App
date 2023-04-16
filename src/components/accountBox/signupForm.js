@@ -152,19 +152,23 @@ export function SignupForm(props) {
           <Input required type="password" placeholder="password" />
           <Input required type="password" placeholder="password" />
           <input  style={{ display: "none" }} type="file" id="file" />
-          <label htmlFor="file" style={{dispaly:"inline-block"}}>
-          <span style={{fontSize: "13px", color: "rgba(68,65,66,0.8)", weight: "500", position:"absolute", marginTop:"20px", marginLeft:"10px"}}>
-              Upload a profile picture!</span>
-            <img src={Add} alt="" style={{width: "20%", marginRight: "20px", marginBottom:"5px", marginTop:"5px",float: "right"}}/>
+          <label htmlFor="file">
+          <Marginer direction="vertical" margin={10} />
+            <span style={{fontSize: "12px", color: "rgba(68,65,66,0.8)", weight: "500", 
+            marginTop:"50px", marginLeft:"10px", marginBottom:"20px", float:"none"}}>
+                Upload a profile picture!</span>
+              <img src={Add} alt="" style={{width: "20%", marginRight: "10px", marginBottom:"5px", 
+              float: "right", cursor:"pointer"}}/>
           </label>
         <SubmitButton disabled={loading}>Sign up</SubmitButton>
         </form>
         <Marginer direction="vertical" margin={10} />
-        <Marginer direction="vertical" margin="1em" />
+        {/* <Marginer direction="vertical" margin="1em" /> */}
         <span>
           <MutedLink href="#">Already have an account?</MutedLink>
           <BoldLink href="#" onClick={switchToSignin}>Sign in Here!</BoldLink>
         </span>
+        <Marginer direction="vertical" margin="1em" />
       </BoxContainer>
       {loading && <Snackbar open={open} message={"Uploading image..."} onClose={handleClose} autoHideDuration={6000} action={action}/>}
       {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
