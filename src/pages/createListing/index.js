@@ -85,12 +85,12 @@ export function ProductListing(){
                      updateProducts();     
                      //updateProducts();             
                     } catch (e) {
-                        setOpen(true);
-                        setErrorVisible(true);
-                        setErrorMessage(e.message);
+                        //setOpen(true);
+                        //setErrorVisible(true);
+                        //setErrorMessage(e.message);
                         console.error("Error adding document: ", e);
                     }
-                    //refreshPage();
+                    refreshPage();
         }   else {
             setOpen(true);
             setErrorVisible(true);
@@ -108,7 +108,8 @@ export function ProductListing(){
         } catch (err) {
             setOpen(true);
             setErrorVisible(true);
-            setErrorMessage(err.message);
+            setErrorMessage("Success");
+            console.log(err.message);
         }
         
       }
