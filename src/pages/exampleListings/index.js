@@ -33,7 +33,7 @@ import { useState, useEffect,useContext } from 'react';
       const userListed = await(getDocs(q));
       userListed.forEach((doc) => {
         setListedDisplayName(doc.data().displayName);
-        console.log(listedDisplayName);
+        //console.log(listedDisplayName);
       });
     } catch(e) {
       console.log(e.message);
