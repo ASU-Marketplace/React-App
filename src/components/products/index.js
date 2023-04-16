@@ -16,16 +16,16 @@ import {
 import { onAuthStateChanged } from 'firebase/auth';
 
 
-const Product = ({ product }) => {
+const Product = ({ product}) => {
     const classes = useStyles();
     const [cart, setCart] = useState([]);
 
-  const [user, setUser] = useState([]);
+    const [user, setUser] = useState([]);
 
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
-    console.log("set " + user.email + " to " + currentUser.email);
+    //console.log("set " + user.email + " to " + currentUser.email);
   })
 
   useEffect(()=>{

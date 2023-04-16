@@ -7,7 +7,6 @@ import { Route, Routes, Navigate } from "react-router-dom"
 import { AccountDetails } from "./pages/accountDetails"
 import { ProductListing } from "./pages/createListing"
 import { UserListing } from './pages/userListings'
-import { ChatHome } from "./pages/chatPage/ChatHome";
 import { HomeChat } from "./pages/chatPage/HomeChat";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
@@ -38,7 +37,7 @@ function App() {
     <Route path="/createListing" element={<ProductListing/>}/>
     <Route path="/chat" element={<HomeChat/>}/>
     <Route path="/listings" element={<UserListing/>}/>
-    <Route path="/exampleListings" element={<ExampleListings/>}/>
+    <Route path="/exampleListings/:id" element={<ExampleListings/>}/>
   </Routes>
 </div>
 </>
