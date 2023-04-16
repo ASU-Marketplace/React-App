@@ -56,8 +56,7 @@ const Product = ({ product }) => {
         setCart([...cart, product]);
     };
 
-    const addToCartDB_TEST = async (e) => {
-        e.preventDefault();  
+    const addToCartDB_TEST = async () => {
    
         try {
             const docRef = await addDoc(collection(db, user.email + " cart"), {
