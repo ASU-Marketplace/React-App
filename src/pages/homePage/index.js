@@ -110,7 +110,11 @@ const handleSearch = async (e) => {
 
     <main className={classes.content}>
       <div className={classes.toolbar} />
-      <Grid container justify-content ='center' spacing={4}>
+      <Grid 
+        container 
+        justify="center" 
+        spacing={4} 
+      >
         {products.map((product) => (
           <Grid item key={product.product.id}  xs={12} sm={6} md={4} lg={3}  className={classes.gridBox}>
             <a onClick={() => handleClick(product.product.id)} className={classes.link}>
