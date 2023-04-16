@@ -20,6 +20,7 @@ export function Cart() {
     const classes = useStyles();
     const [cart, setCart] = useState([]);
     const [user, setUser] = useState([]);
+    const [total, setTotal] = useState([]);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -32,9 +33,13 @@ export function Cart() {
             await getDocs(collection(db, user.email + " cart")).then(querySnapshot => {
                 setCart(querySnapshot.docs.map(doc => doc.data().product));
             });
+            let tempTotal = 0;
             cart.forEach(element => {
                 console.log(element.product);
+                tempTotal += Number(element.price.replace(/[^0-9.-]+/g,""));
+                console.log(element.price);
             });
+            setTotal(tempTotal);
         }
         test();
       }, [user])
@@ -81,7 +86,9 @@ export function Cart() {
         </Grid>
         <div className={classes.cardDetails}>
                 <Typography variant='h4'>
-                    Subtotal: $950{/*{cart.subtotal.formatted_with_symbol} */}
+                    Subtotal: ${
+                    total
+                }
                 </Typography>
                 <div>
                     <Button className={classes.emptyButton} size='large' type='button' variant='contained' color='secondary'
