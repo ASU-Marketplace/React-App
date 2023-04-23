@@ -36,7 +36,7 @@ import {Typography} from '@material-ui/core';
       const userListed = await(getDocs(q));
       userListed.forEach((doc) => {
         setListedDisplayName(doc.data().displayName);
-        //console.log(listedDisplayName);
+        console.log(listedDisplayName);
       });
     } catch(e) {
       console.log(e.message);
@@ -58,6 +58,7 @@ import {Typography} from '@material-ui/core';
               setProductCate(currentProdDoc.data().product.category);
               setCampus(currentProdDoc.data().product.campus);
               setPrice(currentProdDoc.data().product.price);
+              setListedDisplayName(getDisplayName());
             } else {
               // docSnap.data() will be undefined in this case
               console.log("Product not found!");

@@ -39,11 +39,6 @@ const Product = ({ product }) => {
     const handleClose = () => {
         setOpen(false);
     };
-    
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-        console.log("set " + user.email + " to " + currentUser.email);
-    })
 
     useEffect(()=>{
         if (user != null) {

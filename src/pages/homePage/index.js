@@ -116,7 +116,7 @@ const handleSearch = async (e) => {
         spacing={4} 
       >
         {products.map((product) => (
-          <Grid item key={product.product.id}  xs={12} sm={6} md={4} lg={3}  className={classes.gridBox}>
+          <Grid item key={product.id}  xs={12} sm={6} md={4} lg={3}  className={classes.gridBox}>
             <a onClick={() => handleClick(product.product.id)} className={classes.link}>
               <Product product={product.product} onAddToCart={onAddToCart}  />
             </a>
