@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Container, Typography, Button, Grid } from '@material-ui/core';
 import useStyles from './styles';
-import Product from '../../components/products/index';
+import MyProduct from '../../components/myProducts/index';
 import { db, auth } from "../../firebase";
 import {
     addDoc,
@@ -53,7 +53,7 @@ export function UserListing(){
             {}
             {products.map((product) => (
                 <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                    <Product product={product}/>
+                    <MyProduct product={product}/>
                 </Grid>
             ))
             }

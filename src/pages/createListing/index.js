@@ -33,7 +33,6 @@ export function ProductListing() {
     const [isErrorVisible, setErrorVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [open, setOpen] = useState(false);
-    const [prodId, setProdId] = useState("");
 
     var productId = null;
 
@@ -67,52 +66,53 @@ export function ProductListing() {
 
     const addToListingsDB = async (e) => {
         e.preventDefault();  
-        try {
-            await addProducts();
-            await updateProducts();
-            setOpen(true);
-            setErrorVisible(true);
-            setErrorMessage("Product listed successfully!");
-            refreshPage();
-        } catch (err) {
-            setOpen(true);
-            setErrorVisible(true);
-            setErrorMessage("Error: " + err.message);
-            console.log(err.message);              
-        }          
-    }
-                     
-
-    const addProducts = async() => { 
         if (condition != "" || category != "" || campus != ""){
             try {
-                   const docRef =  await addDoc(collection(db, "listings"), {
-                        product : {
-                            "id": "",
-                            "description": description,
-                            "image": imageURL,
-                            "name": name,
-                            "price": price,
-                            "poster": user.email,
-                            "condition": condition,
-                            "category": category,
-                            "campus": campus
-                        },
-                    });
-                    //console.log("written to db with id : " + docRef.id);  
-                    productId = docRef.id;
-                    //console.log('product id is now ' + productId);                              
-                } catch (err) {
-                        setOpen(true);
-                        setErrorVisible(true);
-                        setErrorMessage("Error: " + err.message);
-                        console.log(err.message);
-                }                
-        }   else {
+                await addProducts();
+                await updateProducts();
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Product listed successfully!");
+                refreshPage();
+            } catch (err) {
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Error: " + err.message);
+                console.log(err.message);              
+            }   
+
+        }else {
             setOpen(true);
             setErrorVisible(true);
             setErrorMessage("Please fill all form inputs!");           
         }
+    }
+                     
+
+    const addProducts = async() => { 
+        try {
+                const docRef =  await addDoc(collection(db, "listings"), {
+                    product : {
+                        "id": "",
+                         "description": description,
+                        "image": imageURL,
+                        "name": name,
+                        "price": price,
+                        "poster": user.email,
+                        "condition": condition,
+                        "category": category,
+                        "campus": campus
+                    },
+                });
+                //console.log("written to db with id : " + docRef.id);  
+                productId = docRef.id;
+                //console.log('product id is now ' + productId);                              
+            } catch (err) {
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Error: " + err.message);
+                console.log(err.message);
+            }                   
       }
 
       const updateProducts = async () => {
