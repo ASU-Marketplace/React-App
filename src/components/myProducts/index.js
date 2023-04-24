@@ -4,6 +4,7 @@ import { FavoriteBorderOutlined, OutlinedFlag} from '@material-ui/icons'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import useStyles from './styles';
 //import { addToCartDB, addValue, getValue } from '../../server/dbconnection';
@@ -12,18 +13,26 @@ import {
     addDoc,
     collection,
     getDocs,
+    doc, 
+    deleteDoc
 } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 
-
-const Product = ({ product }) => {
+const MyProduct = ({ product }) => {
     const classes = useStyles();
     const [cart, setCart] = useState([]);
 
     const [user, setUser] = useState([]);
 
     const [open, setOpen] = useState(false);
+
+    const [isErrorVisible, setErrorVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorOpen, setErrorOpen] = useState(false);
+  
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -36,9 +45,30 @@ const Product = ({ product }) => {
       }, 1750);
     };  
 
-    const handleClose = () => {
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
         setOpen(false);
     };
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+      );
 
     useEffect(()=>{
         if (user != null) {
@@ -76,7 +106,25 @@ const Product = ({ product }) => {
             })
     }
 
+    const deleteListing = async () => {
+        try {
+            await deleteDoc(doc(db, "listings", product.id));
+            setErrorVisible(true);
+            setOpen(true);
+            setErrorMessage("Listing successfully deleted!");
+            console.log("doc deleted");
+        } catch (err) {
+            console.log(err.message);
+            setErrorVisible(true);
+            setOpen(true);
+            setErrorMessage(err.message);
+        }
+        
+        
+    }
+
     return (
+        <>
         <Card className={classes.root}>
             <CardMedia className={classes.media} image={product.image} title={product.name} />
             <CardContent>
@@ -113,17 +161,29 @@ const Product = ({ product }) => {
                 >
                     <FavoriteBorderOutlined />
                 </IconButton>
+
+                <IconButton
+                    aria-label="Delete Listing"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        deleteListing();
+                    }}
+                >
+                    <DeleteIcon />
+                </IconButton>
             </CardActions>
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogContent>
-                    <Typography>Thanks! This Listing has been Reported</Typography>
+                    <Typography>Thanks! This listing has been Reported</Typography>
                 </DialogContent>
                 <DialogActions>
                 </DialogActions>
             </Dialog>
         </Card>
+        {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={3000} action={action}/>}
+        </>
     );
 };
 
-export default Product;
+export default MyProduct;

@@ -10,13 +10,14 @@ import {
     query,
     getDocs,
     updateDoc,
-    doc
+    doc,
+    DocumentReference
 } from "firebase/firestore";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-export function ProductListing(){
+export function ProductListing() {
     const [name, setName] = useState("");
     const [description, setDesc] = useState("");
     const [price, setPrice] = useState("");
@@ -32,11 +33,11 @@ export function ProductListing(){
     const [isErrorVisible, setErrorVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [open, setOpen] = useState(false);
-    const [prodId, setProdId] = useState("");
+
+    var productId = null;
 
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
-        //console.log("set " + user.email + " to " + currentUser.email);
     })
 
     const handleClick = () => {
@@ -67,10 +68,33 @@ export function ProductListing(){
         e.preventDefault();  
         if (condition != "" || category != "" || campus != ""){
             try {
-                    const docRef = await addDoc(collection(db, "listings"), {
-                        product : {
-                        "id": null,
-                        "description": description,
+                await addProducts();
+                await updateProducts();
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Product listed successfully!");
+                refreshPage();
+            } catch (err) {
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Error: " + err.message);
+                console.log(err.message);              
+            }   
+
+        }else {
+            setOpen(true);
+            setErrorVisible(true);
+            setErrorMessage("Please fill all form inputs!");           
+        }
+    }
+                     
+
+    const addProducts = async() => { 
+        try {
+                const docRef =  await addDoc(collection(db, "listings"), {
+                    product : {
+                        "id": "",
+                         "description": description,
                         "image": imageURL,
                         "name": name,
                         "price": price,
@@ -78,43 +102,35 @@ export function ProductListing(){
                         "condition": condition,
                         "category": category,
                         "campus": campus
-                        },
-                    })
-                    //console.log("Document written with ID: ", docRef.id);
-                     setProdId(docRef.id)
-                     updateProducts();     
-                     //updateProducts();             
-                    } catch (e) {
-                        //setOpen(true);
-                        //setErrorVisible(true);
-                        //setErrorMessage(e.message);
-                        console.error("Error adding document: ", e);
-                    }
-                    refreshPage();
-        }   else {
-            setOpen(true);
-            setErrorVisible(true);
-            setErrorMessage("Please fill all form inputs!");           
-        }
+                    },
+                });
+                //console.log("written to db with id : " + docRef.id);  
+                productId = docRef.id;
+                //console.log('product id is now ' + productId);                              
+            } catch (err) {
+                setOpen(true);
+                setErrorVisible(true);
+                setErrorMessage("Error: " + err.message);
+                console.log(err.message);
+            }                   
       }
 
       const updateProducts = async () => {
-        console.log(prodId);
+        //console.log("id : " + productId);
         try {
-            await updateDoc(doc(db, "listings", prodId), {
-                "product.id": prodId
+            await updateDoc(doc(db, "listings", productId), {
+                "product.id": productId
             });
-            console.log("updated id to " + prodId);
-        } catch (err) {
+        } catch (err) {            
             setOpen(true);
             setErrorVisible(true);
-            setErrorMessage("Success");
+            setErrorMessage("Error: " + err.message);
             console.log(err.message);
         }
         
       }
 
-      const refreshPage = () =>{
+      const refreshPage = () => {
         setName("");
         setDesc("");
         setPrice("");
@@ -123,6 +139,7 @@ export function ProductListing(){
         setCampus("");
         setCategory("");
       }
+      
 
     return (
         <>
@@ -245,4 +262,5 @@ export function ProductListing(){
               {isErrorVisible && <Snackbar open={open} message={errorMessage} onClose={handleClose} autoHideDuration={6000} action={action}/>}
         </>          
     );
+    
 }
